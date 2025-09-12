@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7Drive — Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK (v9 modular) -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+      import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCYY2GQqS0tCXb7Oxw8AWXhpexq9e8VRUs",
+        authDomain: "aspirehub-32863.firebaseapp.com",
+        projectId: "aspirehub-32863",
+        storageBucket: "aspirehub-32863.appspot.com",
+        messagingSenderId: "686810111182",
+        appId: "1:686810111182:web:4290b4b1b6e64934ec449f",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      // Persist login
+      setPersistence(auth, browserLocalPersistence);
+
+      // Redirect if already logged in
+      onAuthStateChanged(auth, user => {
+        if (user) window.location.href = 'anjan.html';
+      });
+
+      const showMessage = (message) => {
+          const errorEl = document.getElementById('error-message');
+          errorEl.textContent = message;
+          errorEl.style.display = 'block';
+      };
+      
+      const hideMessage = () => {
+          const errorEl = document.getElementById('error-message');
+          errorEl.style.display = 'none';
+      }
+
+      // Login function
+      window.login = async () => {
+        hideMessage();
+        const email = document.getElementById('email').value.trim();
+        const pw = document.getElementById('password').value.trim();
+        if(!email || !pw) return showMessage("Please enter both email and password.");
+        try {
+          await signInWithEmailAndPassword(auth, email, pw);
+          window.location.href = 'anjan.html';
+        } catch(e) {
+          showMessage(e.message);
+        }
+      };
+
+      // Signup function
+      window.signup = async () => {
+        hideMessage();
+        const email = document.getElementById('email').value.trim();
+        const pw = document.getElementById('password').value.trim();
+        if(!email || !pw) return showMessage("Please enter both email and password.");
+        try {
+          await createUserWithEmailAndPassword(auth, email, pw);
+          window.location.href = 'anjan.html';
+        } catch(e) {
+          showMessage(e.message);
+        }
+      };
+    </script>
+
+    <style>
+      :root {
+        --clr-bg-start-light: #e0eafc;
+        --clr-bg-end-light: #cfdef3;
+        --clr-surface-light: rgba(255, 255, 255, 0.7);
+        --clr-text-light: #1d1d1f;
+        --clr-accent-light: #0071e3;
+        --clr-shadow-light: rgba(0,0,0,0.1);
+        --clr-danger-text-light: #d93025;
+        --clr-border-light: #d2d2d7;
+
+        --clr-bg-start-dark: #0f2027;
+        --clr-bg-end-dark: #203a43;
+        --clr-surface-dark: rgba(30, 30, 30, 0.6);
+        --clr-text-dark: #f5f5f7;
+        --clr-accent-dark: #0a84ff;
+        --clr-shadow-dark: rgba(0,0,0,0.5);
+        --clr-danger-text-dark: #f28b82;
+        --clr-border-dark: #424245;
+      }
+
+      [data-theme="light"] {
+        --clr-bg-start: var(--clr-bg-start-light);
+        --clr-bg-end: var(--clr-bg-end-light);
+        --clr-surface: var(--clr-surface-light);
+        --clr-text: var(--clr-text-light);
+        --clr-accent: var(--clr-accent-light);
+        --clr-shadow: var(--clr-shadow-light);
+        --clr-danger-text: var(--clr-danger-text-light);
+        --clr-border: var(--clr-border-light);
+      }
+
+      [data-theme="dark"] {
+        --clr-bg-start: var(--clr-bg-start-dark);
+        --clr-bg-end: var(--clr-bg-end-dark);
+        --clr-surface: var(--clr-surface-dark);
+        --clr-text: var(--clr-text-dark);
+        --clr-accent: var(--clr-accent-dark);
+        --clr-shadow: var(--clr-shadow-dark);
+        --clr-danger-text: var(--clr-danger-text-dark);
+        --clr-border: var(--clr-border-dark);
+      }
+
+      @keyframes gradient-animation {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+      }
+
+      @keyframes pulse-glow {
+          0%, 100% { filter: drop-shadow(0 0 5px var(--clr-accent)); }
+          50% { filter: drop-shadow(0 0 15px var(--clr-accent)); }
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(45deg, var(--clr-bg-start), var(--clr-bg-end));
+        background-size: 200% 200%;
+        animation: gradient-animation 15s ease infinite;
+        color: var(--clr-text);
+        overflow: hidden;
+      }
+
+      .auth-wrapper {
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+      }
+
+      .card {
+        background: var(--clr-surface);
+        padding: 2.5rem;
+        border-radius: 24px;
+        box-shadow: 0 16px 32px var(--clr-shadow);
+        width: 100%;
+        max-width: 380px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .brand-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 2rem;
+      }
+
+      .brand-logo svg {
+        animation: pulse-glow 4s ease-in-out infinite;
+      }
+
+      .title {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+      }
+      
+      .input-group {
+          position: relative;
+          margin: 1.5rem 0;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid var(--clr-border);
+        border-radius: 12px;
+        background: transparent;
+        color: var(--clr-text);
+        box-sizing: border-box;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+      .input-group input:focus {
+          outline: none;
+          border-color: var(--clr-accent);
+      }
+
+      .input-group label {
+          position: absolute;
+          left: 1rem;
+          top: 1rem;
+          color: var(--clr-text);
+          opacity: 0.7;
+          pointer-events: none;
+          transition: all 0.3s ease;
+      }
+      
+      .input-group input:focus + label,
+      .input-group input:not(:placeholder-shown) + label {
+          top: -0.75rem;
+          left: 0.75rem;
+          font-size: 0.8rem;
+          background: var(--clr-surface);
+          padding: 0 0.25rem;
+          color: var(--clr-accent);
+          opacity: 1;
+      }
+      
+      #error-message {
+          color: var(--clr-danger-text);
+          margin-top: 1rem;
+          min-height: 1.2em;
+          font-size: 0.9em;
+          display: none;
+      }
+
+      .btn {
+        cursor: pointer;
+        border: none;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        padding: 1rem;
+        width: 100%;
+        font-size: 1rem;
+      }
+
+      .btn:active {
+        transform: scale(0.98);
+      }
+
+      .btn.primary {
+        background: var(--clr-accent);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(0, 113, 227, 0.4);
+      }
+      .btn.primary:hover {
+        background: linear-gradient(45deg, var(--clr-accent), #0a84ff);
+        box-shadow: 0 6px 20px rgba(0, 113, 227, 0.5);
+      }
+
+      .btn.secondary {
+        background: rgba(128, 128, 128, 0.2);
+        color: var(--clr-text);
+        margin-top: 0.75rem;
+      }
+      [data-theme="dark"] .btn.secondary {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .btn.secondary:hover {
+        background: rgba(128, 128, 128, 0.3);
+      }
+      [data-theme="dark"] .btn.secondary:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      /* new: row container for side-by-side links */
+      .link-row {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0.25rem;
+      }
+
+      /* make link-style buttons size naturally and remove full-width behavior */
+      .btn.link {
+        background: none;
+        color: var(--clr-accent);
+        padding: 0.5rem 0.75rem;
+        width: auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+      }
+      .btn.link:hover {
+        text-decoration: underline;
+      }
+
+      /* ensure anchor elements that use btn classes inherit appearance */
+      .btn.link[href] {
+        border: none;
+      }
+    </style>
+</head>
+<body data-theme="light">
+  <div class="auth-wrapper">
+    <div class="card">
+        <div class="brand-logo">
+            <img src="icon.png" alt="7Drive" style="width: 66px; height: 66px;">            <h1 class="title">7Drive</h1>
+        </div>
+      <div class="input-group">
+          <input id="email" type="email" placeholder=" " required />
+          <label for="email">Email</label>
+      </div>
+      <div class="input-group">
+        <input id="password" type="password" placeholder=" " required />
+        <label for="password">Password</label>
+      </div>
+      <p id="error-message"></p>
+      <button onclick="login()" class="btn primary">Login</button>
+      <button onclick="signup()" class="btn secondary">Sign Up</button>
+      <button onclick="toggleTheme()" class="btn link">Toggle Theme</button>
+
+      <!-- replaced nested buttons with a flex row of anchor links -->
+      <div class="link-row">
+        <a href="about.html" class="btn link">About us</a>
+        <a href="contact.html" class="btn link">Contact us</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle & persistence
+    const root = document.body;
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    root.dataset.theme = savedTheme;
+
+    window.toggleTheme = () => {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      localStorage.setItem('theme', next);
+    };
+  </script>
+</body>
+</html>
+

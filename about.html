@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <!-- Replace title and favicon for 7Drive, refine fonts -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7Drive — Products & Projects</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Updated brand tokens for a sleeker, premium palette */
+        :root{
+            --bg-deep: #021026;
+            --panel: rgba(255,255,255,0.03);
+            --glass-strong: rgba(255,255,255,0.04);
+            --muted: #9aa6bb;
+            --accent-1: #3dd1ff;     /* brighter, cyan-leaning accent */
+            --accent-2: #0a84ff;
+            --accent-3: #7ae0ff;
+            --card-radius: 18px;
+            --card-gap: 18px;
+            --max-width: 1150px;
+            --elevation: 0 10px 30px rgba(2,6,23,0.6);
+            --glass-border: rgba(255,255,255,0.04);
+        }
+
+        /* subtle entrance */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            background:
+              radial-gradient(900px 400px at 8% 10%, rgba(10,132,255,0.06), transparent),
+              linear-gradient(180deg, #010916 0%, #071028 65%);
+            color: #e6eef8;
+            -webkit-font-smoothing:antialiased;
+            padding-top: 6.5rem;
+            font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            transition: background .45s ease;
+        }
+
+        .main-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--card-radius);
+            padding: 2.25rem;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            backdrop-filter: blur(6px);
+            box-shadow: var(--elevation);
+            animation: fadeUp .45s ease both;
+        }
+
+        .hero {
+            gap: 1.75rem;
+            align-items: center;
+        }
+        .hero-left { flex:1 1 520px; min-width:240px; }
+        .hero h2 {
+            font-size: 2.25rem;
+            margin:0 0 .25rem;
+            letter-spacing:-0.02em;
+            color: #fff;
+        }
+        .hero p.lead {
+            color: var(--muted);
+            margin:0 0 1.25rem;
+            font-size:1.05rem;
+            max-width: 64ch;
+        }
+
+        .hero-ctas { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+
+        .btn-cta {
+            background: linear-gradient(90deg,var(--accent-2),var(--accent-1));
+            color: rgba(1,8,22,0.98);
+            border: none;
+            padding: 0.9rem 1.25rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 12px 30px rgba(10,132,255,0.12);
+            transition: transform .12s ease, box-shadow .12s ease;
+        }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(10,132,255,0.14); }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.02);
+            color: var(--muted);
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .btn-ghost:hover { background: rgba(255,255,255,0.03); color: #e6eef8; }
+
+        /* refined projects toolbar */
+        .projects-toolbar { margin-top: 22px; gap: 14px; }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.03);
+            color: var(--muted);
+            padding: 8px 12px;
+            border-radius: 999px;
+            cursor:pointer;
+            font-weight:700;
+            letter-spacing: .01em;
+        }
+        .filter-btn.active {
+            background: linear-gradient(90deg,var(--accent-2),var(--accent-1));
+            color: #001022;
+            box-shadow: 0 10px 30px rgba(10,132,255,0.12);
+            transform: translateY(-2px);
+        }
+
+        /* project card polish */
+        .project-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+            border-radius: 14px;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.02);
+            display:flex; flex-direction:column; gap:10px;
+            min-height:160px;
+            transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s, border-color .18s;
+            transform-origin: center;
+            opacity: 0;
+            transform: translateY(10px) scale(.995);
+        }
+        .project-card.revealed { opacity:1; transform: none; }
+
+        .project-thumb {
+            width:62px; height:62px; border-radius:12px;
+            background: linear-gradient(135deg,var(--accent-2),var(--accent-1));
+            display:flex; align-items:center; justify-content:center;
+            color:#001022;
+            flex-shrink:0;
+            box-shadow: 0 8px 22px rgba(2,6,23,0.45);
+        }
+        .project-thumb svg { width:28px; height:28px; color: #001022; opacity: .98; }
+
+        .project-title { font-weight:800; color:#fff; font-size:1.06rem; }
+        .project-desc { color:var(--muted); font-size:0.96rem; line-height:1.45; margin-top:6px; flex:1; }
+
+        .project-actions { display:flex; gap:10px; margin-top:8px; align-items:center; }
+        .btn-site { background: linear-gradient(90deg,var(--accent-2),var(--accent-1)); color:#001022; border:none; padding:9px 12px; border-radius:10px; font-weight:800; }
+        .btn-github { background: transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03); padding:8px 12px; border-radius:10px; font-weight:700; }
+
+        .project-meta .tag { background: rgba(255,255,255,0.015); color: var(--muted); border: 1px solid rgba(255,255,255,0.02); padding:6px 8px; border-radius:999px; font-weight:700; }
+
+        /* subtle hover lift */
+        .project-card:hover { transform: translateY(-8px) scale(1.005); box-shadow: 0 22px 60px rgba(2,6,23,0.65); border-color: rgba(255,255,255,0.04); }
+
+        /* improved search input styles */
+        .project-search {
+            min-width: 200px;
+            max-width: 420px;
+            display:flex;
+            gap:12px;
+            align-items:center;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 8px 14px;
+            border-radius: 999px;
+            height:44px;
+            transition: box-shadow .16s ease, border-color .16s ease, background .16s ease;
+            backdrop-filter: blur(6px);
+        }
+        .project-search svg { color: rgba(255,255,255,0.65); transition: transform .12s ease, color .12s ease; }
+        .project-search input {
+            background: transparent;
+            border: none;
+            color: #e6eef8;
+            outline: none;
+            width:100%;
+            font-weight:600;
+            font-size:0.95rem;
+            padding: 0;
+            caret-color: var(--accent-1);
+        }
+        .project-search input::placeholder {
+            color: rgba(255,255,255,0.55);
+            font-weight:500;
+        }
+
+        /* focus / active state */
+        .project-search:focus-within {
+            box-shadow: 0 10px 30px rgba(10,132,255,0.12);
+            border-color: rgba(10,132,255,0.28);
+            background: linear-gradient(180deg, rgba(10,132,255,0.02), rgba(255,255,255,0.015));
+        }
+        .project-search:focus-within svg {
+            color: var(--accent-1);
+            transform: translateX(0);
+        }
+
+        /* responsive tweaks */
+        @media (max-width:640px){
+            .hero h2 { font-size:1.6rem; }
+            .project-search { width:100%; }
+            .projects-toolbar { flex-direction:column; align-items:stretch; gap:12px; }
+            .project-card { padding:14px; }
+        }
+
+        /* add explicit light-theme variables so header and other styles have fallbacks */
+        html.light {
+            --bg-color-start: #ffffff;
+            --bg-color-end: #f9fafb;
+            --text-color: #1f2937;
+            --header-text-color: #0b1220;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-border: #e5e7eb;
+            --card-shadow: rgba(0, 0, 0, 0.07);
+            --accent-color: var(--accent-2);
+            --footer-text-color: #4b5563;
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+    <header id="site-header" style="position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: all 0.3s;">
+        <nav style="max-width: 1280px; margin-left: auto; margin-right: auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+            <a href='/' style='display: flex; align-items: center; gap: 0.75rem; text-decoration: none;'>
+                <img src="orion1.png" alt="Orion Logo" style="height: 2rem; width: auto;">
+                <div class="logo-font" style="font-size: 1.5rem; line-height: 2rem; font-weight: 700; letter-spacing: -0.05em; color: var(--header-text-color); transition: color 0.5s;">
+                    <span style="color: var(--accent-color);">Orion</span>
+                </div>
+            </a>
+            <div id="desktop-nav" style="display: none; align-items: center; gap: 2rem;">
+                <a href='/' onmouseout='this.style.color="var(--text-color)"' onmouseover='this.style.color="var(--accent-color)"' style='color: var(--text-color); transition: color 0.3s; font-weight: 600; text-decoration: none;'>Home</a>
+                <a href='/about' style='color: var(--accent-color); transition: color 0.3s; font-weight: 600; text-decoration: none;'>About</a>
+                <button id="theme-toggle-desktop" style="background-color: var(--bg-color-end); border-radius: 9999px; cursor: pointer; transition: all 0.4s; width: 2.5rem; height: 2.5rem; display: flex; align-items: center; justify-content: center; border: none;">
+                    <svg class="sun-icon" style="width: 1.25rem; height: 1.25rem; color: #FBBF24;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M12 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg class="moon-icon" style="width: 1.25rem; height: 1.25rem; color: #818cf8; position: absolute;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+            </div>
+            <div id="mobile-menu-button-container">
+                <button id="mobile-menu-button" style="color: var(--header-text-color); border: none; background: none; cursor: pointer;">
+                    <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" style="display: none; background-color: var(--card-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+            <div style="padding: 0.5rem 0.75rem 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                <a href='/' onmouseout='this.style.color="var(--text-color)"' onmouseover='this.style.color="var(--accent-color)"' style='display: block; padding: 0.5rem 0.75rem; border-radius: 0.375rem; font-weight: 600; color: var(--text-color); text-decoration: none;'>Home</a>
+                <a href='/about' style='display: block; padding: 0.5rem 0.75rem; border-radius: 0.375rem; font-weight: 600; color: var(--accent-color); text-decoration: none;'>About</a>
+                <div style="padding-top: 1rem;">
+                    <button id="theme-toggle-mobile" style="background-color: var(--bg-color-end); border-radius: 9999px; cursor: pointer; transition: all 0.4s; width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center; border: none;">
+                         <svg class="sun-icon" style="width: 1.5rem; height: 1.5rem; color: #FBBF24;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M12 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                         <svg class="moon-icon" style="width: 1.5rem; height: 1.5rem; color: #818cf8; position: absolute;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow container mx-auto px-6 py-12" style="padding-top: 6.5rem;">
+        <div class="main-card">
+            <div class="hero">
+                <div class="hero-left">
+                    <!-- updated brand + concise kicker -->
+                    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+                        <img src="icon.png" alt="7Drive" style="width:40px;height:40px;border-radius:8px;box-shadow:0 8px 20px rgba(10,132,255,0.08)">
+                        <div style="font-weight:700;color:var(--muted);letter-spacing:0.04em;font-size:.95rem">7Drive — Product Suite</div>
+                    </div>
+
+                    <h2>Build, discover and ship — tools for creators and teams</h2>
+                    <p class="lead">We craft fast, secure web products that help you organize work, discover content, and automate repetitive jobs. Explore live demos and source repositories — everything is open to inspect and fork.</p>
+
+                    <div class="hero-ctas">
+                        <a class="btn-cta" href="https://7drive.example" target="_blank" rel="noopener">Explore 7Drive</a>
+                        <a class="btn-ghost" href="https://github.com/Anjanchaubey" target="_blank" rel="noopener">Browse GitHub</a>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
+                    <img src="icon.png" alt="7Drive mark" style="width:96px;height:96px;border-radius:16px;object-fit:cover;box-shadow:0 16px 40px rgba(2,6,23,0.45)" />
+                </div>
+            </div>
+
+            <h3 style="margin-top:1.5rem;margin-bottom:0.75rem;color:#cfe7ff;font-weight:700">Featured Projects</h3>
+
+            <!-- New: toolbar (search + filters) -->
+            <div class="projects-toolbar" role="region" aria-label="Projects toolbar">
+                <div class="filters" role="tablist" aria-label="Project categories">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="data">Data</button>
+                    <button class="filter-btn" data-filter="automation">Automation</button>
+                    <button class="filter-btn" data-filter="productivity">Productivity</button>
+                    <button class="filter-btn" data-filter="security">Security</button>
+                    <button class="filter-btn" data-filter="focus">Focus</button>
+                </div>
+
+                <div class="project-search" role="search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="opacity:.85"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 19a8 8 0 110-16 8 8 0 010 16z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <input id="projectSearch" placeholder="Search projects..." aria-label="Search projects">
+                </div>
+            </div>
+
+            <div class="projects-grid" id="projectsGrid" role="list">
+                <!-- Project entries updated: thumbnails replaced with icons -->
+
+                <article class="project-card" data-category="data" role="listitem">
+                    <div class="project-top">
+                        <div style="display:flex;gap:12px;align-items:center">
+                            <div class="project-thumb" aria-hidden="true">
+                                <!-- search / discovery icon -->
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 20.49 21.49 19 16 13.5z"/></svg>
+                            </div>
+                            <div>
+                                <div class="project-title">Piracy</div>
+                                <div class="project-desc">Content aggregation and open-access experiments focused on fast search and discovery.</div>
+                            </div>
+                        </div>
+                        <div class="meta-badge">Data · Aggregation</div>
+                    </div>
+                    <div class="project-actions">
+                        <a class="btn-site" href="https://7piracy.netlify.app" target="_blank" rel="noopener">Visit Site</a>
+                        <a class="btn-github" href="https://github.com/Anjanchaubey/piracy" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                    <div class="project-meta"><span class="tag">search</span><span class="tag">crawler</span></div>
+                </article>
+
+                <article class="project-card" data-category="automation" role="listitem">
+                    <div class="project-top">
+                        <div style="display:flex;gap:12px;align-items:center">
+                            <div class="project-thumb" aria-hidden="true">
+                                <!-- gear / automation icon -->
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.14 12.94a7.003 7.003 0 000-1.88l2.03-1.58a.5.5 0 00.12-.63l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7.02 7.02 0 00-1.62-.94l-.36-2.54A.5.5 0 0012.5 2h-3.99a.5.5 0 00-.49.42l-.36 2.54c-.56.23-1.09.53-1.58.88l-2.4-.96a.5.5 0 00-.6.22L2.7 9.85a.5.5 0 00.12.63l2.03 1.58c-.04.31-.07.63-.07.95s.03.64.07.95L2.82 15.9a.5.5 0 00-.12.63l1.92 3.32c.14.24.45.33.7.22l2.39-.96c.5.35 1.03.65 1.59.88l.36 2.54c.05.26.27.42.49.42H12a.5.5 0 00.49-.42l.36-2.54c.56-.23 1.1-.53 1.62-.94l2.39.96c.25.11.56.02.7-.22l1.92-3.32a.5.5 0 00-.12-.63l-2.03-1.58zM12 15.5A3.5 3.5 0 1112 8.5a3.5 3.5 0 010 7z"/></svg>
+                            </div>
+                            <div>
+                                <div class="project-title">Goldbox</div>
+                                <div class="project-desc">Automation and tooling for creators — file workflows, scheduled tasks and integrations.</div>
+                            </div>
+                        </div>
+                        <div class="meta-badge">Automation</div>
+                    </div>
+                    <div class="project-actions">
+                        <a class="btn-site" href="https://goldbox.netlify.app" target="_blank" rel="noopener">Visit Site</a>
+                        <a class="btn-github" href="https://github.com/Anjanchaubey/Goldbox" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                    <div class="project-meta"><span class="tag">automation</span><span class="tag">integrations</span></div>
+                </article>
+
+                <article class="project-card" data-category="productivity" role="listitem">
+                    <div class="project-top">
+                        <div style="display:flex;gap:12px;align-items:center">
+                            <div class="project-thumb" aria-hidden="true">
+                                <!-- checklist / backlog icon -->
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 11l-2 2-1.41-1.41L9 8.17 13.41 12.6 12 14l-3-3zM3 5h18v2H3V5zm0 6h12v2H3v-2zm0 6h12v2H3v-2z"/></svg>
+                            </div>
+                            <div>
+                                <div class="project-title">Backlogs</div>
+                                <div class="project-desc">Lightweight backlog and project management tools for individuals and small teams.</div>
+                            </div>
+                        </div>
+                        <div class="meta-badge">Productivity</div>
+                    </div>
+                    <div class="project-actions">
+                        <a class="btn-site" href="https://backlogs.netlify.app" target="_blank" rel="noopener">Visit Site</a>
+                        <a class="btn-github" href="https://github.com/Anjanchaubey/backlogs" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                    <div class="project-meta"><span class="tag">kanban</span><span class="tag">backlog</span></div>
+                </article>
+
+                <article class="project-card" data-category="knowledge" role="listitem">
+                    <div class="project-top">
+                        <div style="display:flex;gap:12px;align-items:center">
+                            <div class="project-thumb" aria-hidden="true">
+                                <!-- notebook / notes icon -->
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 2h9a2 2 0 012 2v16a1 1 0 01-1 1H7a2 2 0 01-2-2V4a2 2 0 012-2zm0 4v14h9V6H7zM9 8h5v2H9V8z"/></svg>
+                            </div>
+                            <div>
+                                <div class="project-title">Nexora</div>
+                                <div class="project-desc">Tools for organizing knowledge and workflows — minimal, fast, extendable.</div>
+                            </div>
+                        </div>
+                        <div class="meta-badge">Knowledge</div>
+                    </div>
+                    <div class="project-actions">
+                        <a class="btn-site" href="https://myndra.netlify.app" target="_blank" rel="noopener">Visit Site</a>
+                        <a class="btn-github" href="https://github.com/Anjanchaubey/Nexora" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                    <div class="project-meta"><span class="tag">notes</span><span class="tag">knowledge</span></div>
+                </article>
+
+                <article class="project-card" data-category="security" role="listitem">
+                    <div class="project-top">
+                        <div style="display:flex;gap:12px;align-items:center">
+                            <div class="project-thumb" aria-hidden="true">
+                                <!-- lock / vault icon -->
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-6h-1V9a5 5 0 10-10 0v2H6a2 2 0 00-2 2v6a2 2 0 002 2h12a2 2 0 002-2v-6a2 2 0 00-2-2zM8 9a4 4 0 118 0v2H8V9z"/></svg>
+                            </div>
+                            <div>
+                                <div class="project-title">Vault-Z</div>
+                                <div class="project-desc">A secure vault for personal utilities and encrypted storage experiments.</div>
+                            </div>
+                        </div>
+                        <div class="meta-badge">Security</div>
+                    </div>
+                    <div class="project-actions">
+                        <a class="btn-site" href="http://vaultz.netlify.app/" target="_blank" rel="noopener">Visit Site</a>
+                        <a class="btn-github" href="https://github.com/Anjanchaubey/valut-z" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                    <div class="project-meta"><span class="tag">security</span><span class="tag">encryption</span></div>
+                </article>
+
+                <article class="project-card" data-category="focus" role="listitem">
+                    <div class="project-top">
+                        <div style="display:flex;gap:12px;align-items:center">
+                            <div class="project-thumb" aria-hidden="true">
+                                <!-- timer / focus icon -->
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 1H9v2h6V1zM12 8a6 6 0 100 12 6 6 0 000-12zm1 7H11V10h2v5zM7 4h10v2H7z"/></svg>
+                            </div>
+                            <div>
+                                <div class="project-title">Focus</div>
+                                <div class="project-desc">Minimal focus timer built for deep work sessions and simple productivity tracking.</div>
+                            </div>
+                        </div>
+                        <div class="meta-badge">Focus</div>
+                    </div>
+                    <div class="project-actions">
+                        <a class="btn-site" href="https://focus07.netlify.app" target="_blank" rel="noopener">Visit Site</a>
+                        <a class="btn-github" href="https://github.com/Anjanchaubey/focus" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                    <div class="project-meta"><span class="tag">timer</span><span class="tag">productivity</span></div>
+                </article>
+            </div>
+
+            <div style="margin-top:1.25rem; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                <p style="color:var(--muted); margin:0;">Interested in collaboration, audits or custom integrations? <a href="contact.html" style="color:var(--brand-accent); font-weight:700; text-decoration:none;">Contact us.</a></p>
+                <div style="display:flex;gap:10px;">
+                    <a class="btn-ghost" href="https://github.com/Anjanchaubey/7drive.git" target="_blank" rel="noopener">All GitHub Projects</a>
+                    <a class="btn-cta" href="7drive.netlify.app" target="_blank" rel="noopener">Explore 7Drive</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full text-center p-6" style="padding-top:1rem;">
+        <div style="max-width:1100px;margin:0 auto;">
+            <p style="margin:0 0 6px 0; color:var(--muted);">7Drive — curated tools and experiments. Built for clarity, speed and privacy.</p>
+            <p style="margin:0; color:rgba(255,255,255,0.5); font-size:13px;">© 2025 7Drive. All rights reserved. <a href="index.html">Home</a> · <a href="contact.html">Contact</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggles = document.querySelectorAll('#theme-toggle-desktop, #theme-toggle-mobile');
+            const sunIcons = document.querySelectorAll('.sun-icon');
+            const moonIcons = document.querySelectorAll('.moon-icon');
+            const htmlElement = document.documentElement;
+
+            const applyTheme = (theme) => {
+                // apply class on <html> for older CSS rules and set body dataset for other pages
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    htmlElement.classList.remove('light');
+                    document.body.dataset.theme = 'dark';
+                    sunIcons.forEach(i => { i.style.transform = 'rotate(180deg) scale(0)'; i.style.opacity = '0'; });
+                    moonIcons.forEach(i => { i.style.transform = 'rotate(0) scale(1)'; i.style.opacity = '1'; });
+                } else {
+                    htmlElement.classList.remove('dark');
+                    htmlElement.classList.add('light');
+                    document.body.dataset.theme = 'light';
+                    sunIcons.forEach(i => { i.style.transform = 'rotate(0) scale(1)'; i.style.opacity = '1'; });
+                    moonIcons.forEach(i => { i.style.transform = 'rotate(-180deg) scale(0)'; i.style.opacity = '0'; });
+                }
+                localStorage.setItem('theme', theme);
+            };
+
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme) { applyTheme(savedTheme); }
+            else if (prefersDark) { applyTheme('dark'); }
+            else { applyTheme('light'); }
+
+            themeToggles.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const isDark = htmlElement.classList.contains('dark') || document.body.dataset.theme === 'dark';
+                    applyTheme(isDark ? 'light' : 'dark');
+                });
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const desktopNav = document.getElementById('desktop-nav');
+            const mobileMenuBtnContainer = document.getElementById('mobile-menu-button-container');
+            const handleResize = () => {
+                if (window.innerWidth >= 768) {
+                    desktopNav.style.display = 'flex';
+                    mobileMenuBtnContainer.style.display = 'none';
+                    mobileMenu.style.display = 'none';
+                } else {
+                    desktopNav.style.display = 'none';
+                    mobileMenuBtnContainer.style.display = 'block';
+                }
+            };
+            mobileMenuButton.addEventListener('click', () => {
+                const isHidden = mobileMenu.style.display === 'none';
+                mobileMenu.style.display = isHidden ? 'block' : 'none';
+            });
+            window.addEventListener('resize', handleResize);
+            handleResize();
+            const header = document.getElementById('site-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    header.style.backgroundColor = 'var(--card-bg)';
+                    header.style.backdropFilter = 'blur(10px)';
+                    header.style.webkitBackdropFilter = 'blur(10px)';
+                    header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                } else {
+                    header.style.backgroundColor = 'transparent';
+                    header.style.backdropFilter = 'none';
+                    header.style.webkitBackdropFilter = 'none';
+                    header.style.boxShadow = 'none';
+                }
+            });
+        });
+        // New: interactive filters + reveal animation
+        (function(){
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('projectSearch');
+            const grid = document.getElementById('projectsGrid');
+            const cards = Array.from(grid.querySelectorAll('.project-card'));
+
+            function applyFilter() {
+                const active = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+                const q = (searchInput.value || '').trim().toLowerCase();
+
+                cards.forEach((card, i) => {
+                    const cat = card.dataset.category || '';
+                    const title = card.querySelector('.project-title')?.textContent?.toLowerCase() || '';
+                    const desc = card.querySelector('.project-desc')?.textContent?.toLowerCase() || '';
+                    const matchesCat = active === 'all' || cat.includes(active);
+                    const matchesQuery = !q || title.includes(q) || desc.includes(q) || (card.dataset.tags && card.dataset.tags.includes(q));
+                    const show = matchesCat && matchesQuery;
+
+                    card.style.display = show ? '' : 'none';
+                    if (show) {
+                        // staggered reveal
+                        setTimeout(() => card.classList.add('revealed'), 40 * (i % 8));
+                    } else {
+                        card.classList.remove('revealed');
+                    }
+                });
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    applyFilter();
+                });
+            });
+
+            searchInput.addEventListener('input', () => applyFilter());
+
+            // initial reveal
+            window.addEventListener('load', () => {
+                setTimeout(() => applyFilter(), 80);
+            });
+
+            // keyboard shortcut: "/" to focus search
+            window.addEventListener('keydown', (e) => {
+                if (e.key === '/') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

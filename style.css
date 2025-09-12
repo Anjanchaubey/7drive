@@ -1,0 +1,560 @@
+:root {
+  --clr-bg: #f5f5f7;
+  --clr-surface: #ffffff;
+  --clr-text: #1d1d1f;
+  --clr-accent: #0071e3;
+  --clr-danger: #e00;
+  --clr-shadow: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --clr-bg: #121212;
+  --clr-surface: #1e1e1e;
+  --clr-text: #f0f0f0;
+  --clr-accent: #0a84ff;
+  --clr-shadow: rgba(0, 0, 0, 0.7);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--clr-bg);
+  color: var(--clr-text);
+}
+
+/* Auth */
+.auth-wrapper {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background: var(--clr-surface);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px var(--clr-shadow);
+  width: 320px;
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+}
+
+.card input {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: var(--clr-surface);
+  color: var(--clr-text);
+}
+
+/* Buttons */
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px var(--clr-shadow);
+}
+
+.btn.primary {
+  background: var(--clr-accent);
+  color: #fff;
+  padding: 0.75rem;
+  width: 100%;
+}
+
+.btn.secondary {
+  background: #e0e0e0;
+  color: var(--clr-text);
+  padding: 0.75rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+[data-theme="dark"] .btn.secondary {
+  background: #2c2c2c;
+}
+
+.btn.link {
+  background: none;
+  color: var(--clr-accent);
+  margin-top: 1rem;
+}
+
+/* Dashboard Layout */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--clr-surface);
+  box-shadow: 0 2px 8px var(--clr-shadow);
+}
+
+.brand {
+  font-size: 1.5rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  height: 96.08vh; /* was: calc(100vh - 64px); remove the subtraction */
+}
+
+
+.sidebar {
+  background: var(--clr-surface);
+  padding: 1rem;
+  box-shadow: 2px 0 8px var(--clr-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.sidebar input,
+.sidebar select {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: var(--clr-surface);
+  color: var(--clr-text);
+}
+
+.sidebar .btn {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.sidebar .danger {
+  background: var(--clr-danger);
+  color: #fff;
+}
+
+.main-area {
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.upload-area {
+  border: 2px dashed #ccc;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--clr-text);
+}
+
+.upload-area.dragover {
+  background: var(--clr-accent);
+  color: #fff;
+  border-color: var(--clr-accent);
+}
+
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.file-item {
+  background: var(--clr-surface);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 8px 16px var(--clr-shadow);
+  display: flex;
+  flex-direction: column;
+  color: var(--clr-text);
+}
+
+.file-item.dragging {
+  opacity: 0.5;
+}
+
+.file-item header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-item .checkbox {
+  margin-right: 0.5rem;
+}
+
+.file-item .filename {
+  font-weight: 500;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progress-bar {
+  height: 6px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: auto;
+}
+
+.progress {
+  height: 100%;
+  background: var(--clr-accent);
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  position: relative;
+  background: var(--clr-surface);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px var(--clr-shadow);
+  width: 300px;
+  text-align: center;
+  color: var(--clr-text);
+}
+
+.modal-buttons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+/* Theme Switch */
+[data-theme="light"] { --clr-bg: #f5f5f7; }
+[data-theme="dark"]  { --clr-bg: #121212; }
+
+/* Navbar actions */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Sidebar Profile Section */
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  border-top: 1px solid #ddd;
+}
+
+[data-theme="dark"] .sidebar-footer {
+  border-top: 1px solid #333;
+}
+
+.sidebar-footer .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sidebar-footer .username {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.95rem;
+}
+
+/* Avatar inside modal */
+.modal-content .avatar.large {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+/* Drag selection */
+.file-item.selected {
+  border: 2px solid var(--clr-accent);
+}
+/* Brand heading at top of sidebar */
+.sidebar .brand {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--clr-accent);
+}
+
+/* Theme toggle placed above account footer */
+.sidebar-theme-toggle {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+.sidebar-theme-toggle .btn {
+  width: 100%;
+}
+
+/* Sidebar footer still pinned bottom */
+.sidebar-footer {
+  margin-top: 0;
+  padding: 0.75rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  border-top: 1px solid #ccc;
+}
+
+[data-theme="dark"] .sidebar-footer {
+  border-top: 1px solid #444;
+}
+/*sidebar*/
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sidebar-footer {
+  padding: 0.75rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  border-top: 1px solid #ccc;
+}
+
+.selection-box {
+  position: absolute;
+  border: 2px dashed var(--clr-accent);
+  background: rgba(0, 113, 227, 0.1);
+  z-index: 100;
+  pointer-events: none;
+}
+.file-meta {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+[data-theme="dark"] .file-meta {
+  color: #aaa;
+}
+.display-toggle {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.file-list.inline-view {
+  display: block;
+}
+
+.file-list.inline-view .file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.main-area {
+  padding: 1rem;
+  overflow-y: auto;
+  position: relative;
+}
+.file-item .thumbnail {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.file-item .thumbnail img,
+.file-item .thumbnail video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+.file-icon {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
+}
+.thumbnail {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f0f0;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.preview-img,
+.preview-video {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  filter: blur(1px);
+  transition: filter 0.3s ease;
+}
+
+.file-item:hover .preview-img,
+.file-item:hover .preview-video {
+  filter: none;
+}
+
+.file-icon {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #888;
+}
+/* Default grid (already exists) */
+.file-list.grid-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+/* Inline View Style */
+.file-list.inline-view {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* File items in inline view */
+.file-list.inline-view .file-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--clr-surface);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px var(--clr-shadow);
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Thumbnail for inline */
+.file-list.inline-view .thumbnail {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eee;
+}
+
+.file-list.inline-view img,
+.file-list.inline-view video {
+  width: 90%;
+  height: 90%;
+  object-fit: cover;
+  display: flex;
+  filter: blur(1px); /* For tiny previews */
+}
+
+.file-list.inline-view .filename,
+.file-list.inline-view .file-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300px;
+}
+
+.file-list.inline-view .progress-bar {
+  flex-grow: 1;
+  max-width: 150px;
+  margin-left: auto;
+}
+/* Tighter checkbox + icon button row in inline view */
+.file-list.inline-view .file-item header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: auto;
+  flex-shrink: 0;
+  width: auto;
+  padding-right: 1rem;
+}
+
+/* Checkbox and buttons aligned small */
+.file-list.inline-view .file-item .checkbox {
+  transform: scale(0.9);
+  margin: 0;
+}
+
+.file-list.inline-view .file-item .btn.icon {
+  padding: 4px 6px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+}
+.file-list.inline-view .thumbnail {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+}
+
+.file-list.inline-view .filename,
+.file-list.inline-view .file-meta {
+  font-size: 0.9rem;
+}
