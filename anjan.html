@@ -5,74 +5,146 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>7Drive</title>
-    <link rel="icon" type="image/x-icon" href="icon.ico">
-
-    <script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.js"></script>
+       <link rel="icon" type="image/x-icon" href="favicon.ico">
+     <link rel="icon" type="image/x-icon" href="favicon.ico">      
+   <script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --font-family-sans: 'Roboto', sans-serif;
-
-            --bg-light: #fff;
-            --bg-rgb-light: 255, 255, 255;
-            --surface-light: #f8f9fa;
-            --border-light: #dadce0;
-            --text-primary-light: #202124;
-            --text-secondary-light: #5f6368;
-            --accent-light: #1a73e8;
-            --accent-hover-light: #185abc;
-            --danger-light: #d93025;
-            --item-hover-light: #f1f3f4;
-            --item-selected-light: #e8f0fe;
-            --item-selected-border-light: #1a73e8;
-
-            --bg-dark: #202124;
-            --bg-rgb-dark: 32, 33, 36;
-            --surface-dark: #292a2d;
-            --border-dark: #3c4043;
-            --text-primary-dark: #e8eaed;
-            --text-secondary-dark: #bdc1c6;
-            --accent-dark: #8ab4f8;
-            --accent-hover-dark: #a6c9fa;
-            --danger-dark: #f28b82;
-            --item-hover-dark: #3c4043;
-            --item-selected-dark: #373e4b;
-            --item-selected-border-dark: #8ab4f8;
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        #splash-screen img {
+            width: 120px;
+            height: 120px;
+            animation: grow 0.8s ease-out forwards;
+        }
+        @keyframes grow {
+            0% { transform: scale(0.3); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        #splash-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
         }
 
-        [data-theme="light"] {
-            --bg: var(--bg-light);
-            --bg-rgb: var(--bg-rgb-light);
-            --surface: var(--surface-light);
-            --border: var(--border-light);
-            --text-primary: var(--text-primary-light);
-            --text-secondary: var(--text-secondary-light);
-            --accent: var(--accent-light);
-            --accent-hover: var(--accent-hover-light);
-            --danger: var(--danger-light);
-            --search-bg: #f1f3f4;
-            --item-hover: var(--item-hover-light);
-            --item-selected: var(--item-selected-light);
-            --item-selected-border: var(--item-selected-border-light);
+        :root {
+            /* Google Drive Material You Color Scheme */
+            --md-sys-color-primary: #1a73e8;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-primary-container: #e8f0fe;
+            --md-sys-color-on-primary-container: #1557b0;
+            --md-sys-color-secondary: #5f6368;
+            --md-sys-color-on-secondary: #ffffff;
+            --md-sys-color-secondary-container: #f1f3f4;
+            --md-sys-color-on-secondary-container: #3c4043;
+            --md-sys-color-tertiary: #34a853;
+            --md-sys-color-on-tertiary: #ffffff;
+            --md-sys-color-tertiary-container: #e6f4ea;
+            --md-sys-color-on-tertiary-container: #137333;
+            --md-sys-color-error: #ea4335;
+            --md-sys-color-on-error: #ffffff;
+            --md-sys-color-error-container: #fce8e6;
+            --md-sys-color-on-error-container: #d93025;
+            --md-sys-color-background: #ffffff;
+            --md-sys-color-on-background: #202124;
+            --md-sys-color-surface: #ffffff;
+            --md-sys-color-on-surface: #202124;
+            --md-sys-color-surface-variant: #f8f9fa;
+            --md-sys-color-on-surface-variant: #5f6368;
+            --md-sys-color-outline: #dadce0;
+            --md-sys-color-outline-variant: #e8eaed;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-scrim: #000000;
+            --md-sys-color-inverse-surface: #3c4043;
+            --md-sys-color-inverse-on-surface: #ffffff;
+            --md-sys-color-inverse-primary: #aecbfa;
+            --md-sys-color-surface-dim: #f8f9fa;
+            --md-sys-color-surface-bright: #ffffff;
+            --md-sys-color-surface-container-lowest: #ffffff;
+            --md-sys-color-surface-container-low: #f8f9fa;
+            --md-sys-color-surface-container: #f1f3f4;
+            --md-sys-color-surface-container-high: #e8eaed;
+            --md-sys-color-surface-container-highest: #dadce0;
+            
+            /* Google Drive specific colors */
+            --google-blue: #1a73e8;
+            --google-blue-hover: #1557b0;
+            --google-gray: #5f6368;
+            --google-gray-light: #9aa0a6;
+            --google-gray-bg: #f8f9fa;
+            --google-border: #dadce0;
+            --google-hover: #f1f3f4;
+            --google-selected: #e8f0fe;
+            --google-text-primary: #202124;
+            --google-text-secondary: #5f6368;
+            --google-text-tertiary: #9aa0a6;
         }
 
         [data-theme="dark"] {
-            --bg: var(--bg-dark);
-            --bg-rgb: var(--bg-rgb-dark);
-            --surface: var(--surface-dark);
-            --border: var(--border-dark);
-            --text-primary: var(--text-primary-dark);
-            --text-secondary: var(--text-secondary-dark);
-            --accent: var(--accent-dark);
-            --accent-hover: var(--accent-hover-dark);
-            --danger: var(--danger-dark);
-            --search-bg: #3c4043;
-            --item-hover: var(--item-hover-dark);
-            --item-selected: var(--item-selected-dark);
-            --item-selected-border: var(--item-selected-border-dark);
+            /* Google Drive Dark Mode Color Scheme */
+            --md-sys-color-primary: #8ab4f8;
+            --md-sys-color-on-primary: #0d47a1;
+            --md-sys-color-primary-container: #1a73e8;
+            --md-sys-color-on-primary-container: #ffffff;
+            --md-sys-color-secondary: #9aa0a6;
+            --md-sys-color-on-secondary: #202124;
+            --md-sys-color-secondary-container: #3c4043;
+            --md-sys-color-on-secondary-container: #e8eaed;
+            --md-sys-color-tertiary: #81c995;
+            --md-sys-color-on-tertiary: #0d5016;
+            --md-sys-color-tertiary-container: #34a853;
+            --md-sys-color-on-tertiary-container: #ffffff;
+            --md-sys-color-error: #f28b82;
+            --md-sys-color-on-error: #601410;
+            --md-sys-color-error-container: #ea4335;
+            --md-sys-color-on-error-container: #ffffff;
+            --md-sys-color-background: #1a1a1a;
+            --md-sys-color-on-background: #e8eaed;
+            --md-sys-color-surface: #202124;
+            --md-sys-color-on-surface: #e8eaed;
+            --md-sys-color-surface-variant: #3c4043;
+            --md-sys-color-on-surface-variant: #9aa0a6;
+            --md-sys-color-outline: #5f6368;
+            --md-sys-color-outline-variant: #3c4043;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-scrim: #000000;
+            --md-sys-color-inverse-surface: #e8eaed;
+            --md-sys-color-inverse-on-surface: #202124;
+            --md-sys-color-inverse-primary: #1a73e8;
+            --md-sys-color-surface-dim: #202124;
+            --md-sys-color-surface-bright: #3c4043;
+            --md-sys-color-surface-container-lowest: #1a1a1a;
+            --md-sys-color-surface-container-low: #2d2d2d;
+            --md-sys-color-surface-container: #3c4043;
+            --md-sys-color-surface-container-high: #5f6368;
+            --md-sys-color-surface-container-highest: #9aa0a6;
+            
+            /* Google Drive dark mode specific colors */
+            --google-blue: #8ab4f8;
+            --google-blue-hover: #aecbfa;
+            --google-gray: #9aa0a6;
+            --google-gray-light: #5f6368;
+            --google-gray-bg: #2d2d2d;
+            --google-border: #3c4043;
+            --google-hover: #3c4043;
+            --google-selected: #1a73e8;
+            --google-text-primary: #e8eaed;
+            --google-text-secondary: #9aa0a6;
+            --google-text-tertiary: #5f6368;
         }
 
         *,
@@ -83,11 +155,14 @@
 
         body {
             margin: 0;
-            font-family: var(--font-family-sans);
-            background-color: var(--bg);
-            color: var(--text-primary);
+            font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--google-text-primary);
             font-size: 14px;
+            line-height: 1.5;
             overflow: hidden;
+            background: var(--md-sys-color-background);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         svg {
@@ -111,10 +186,12 @@
             grid-area: header;
             display: flex;
             align-items: center;
-            padding: 0 16px 0 24px;
-            border-bottom: 1px solid var(--border);
-            background-color: var(--bg);
+            padding: 8px 16px;
+            background: var(--md-sys-color-surface);
+            border-bottom: 1px solid var(--google-border);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             z-index: 20;
+            min-height: 64px;
         }
 
         .sidebar-toggle-btn {
@@ -125,10 +202,18 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             font-size: 22px;
-            color: var(--text-secondary);
+            font-weight: 400;
+            color: var(--google-text-primary);
             margin-right: 2rem;
+            text-decoration: none;
+        }
+        
+        .brand img {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
         }
 
         .search-container {
@@ -140,12 +225,18 @@
             max-width: 720px;
             display: flex;
             align-items: center;
-            background-color: var(--search-bg);
-            border-radius: 24px;
-            padding: 0 8px 0 16px;
+            border-radius: 8px;
+            padding: 0 12px 0 16px;
             height: 48px;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            box-shadow: 0 4px 10px rgba(2, 6, 23, 0.06);
+            background: var(--google-gray-bg);
+            border: 1px solid var(--google-border);
+            transition: all 0.2s ease;
+        }
+        
+        .search-bar:focus-within {
+            background: var(--md-sys-color-surface);
+            border-color: var(--google-blue);
+            box-shadow: 0 0 0 1px var(--google-blue);
         }
 
         #search {
@@ -155,19 +246,16 @@
             background: transparent;
             padding: 0 12px;
             font-size: 16px;
-            color: var(--text-primary);
+            color: var(--google-text-primary);
+            font-family: inherit;
         }
 
-        /* placeholder color adapts to theme */
         #search::placeholder {
-            color: var(--text-secondary);
-            opacity: 0.9;
+            color: var(--google-text-secondary);
         }
 
         #search:focus {
             outline: none;
-            box-shadow: 0 6px 18px rgba(10, 132, 255, 0.08);
-            border-radius: 24px;
         }
 
         .header-actions {
@@ -187,38 +275,49 @@
 
         .btn {
             cursor: pointer;
-            border: 1px solid transparent;
+            border: none;
             padding: 8px 16px;
             font-size: 14px;
             font-weight: 500;
-            transition: background-color 0.2s, box-shadow 0.2s;
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 8px;
             background: none;
-            color: var(--text-primary);
-            border-radius: 99px;
+            color: var(--google-text-primary);
+            border-radius: 20px;
+            font-family: inherit;
+            text-decoration: none;
+            min-height: 40px;
         }
 
         .btn:hover {
-            background-color: var(--item-hover);
+            background-color: var(--google-hover);
         }
 
         .btn.icon-btn {
             padding: 8px;
+            border-radius: 50%;
+            min-width: 40px;
+            min-height: 40px;
         }
 
         .btn.new-file {
-            background-color: var(--bg);
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 1px rgba(0, 0, 0, 0.08);
-            padding: 16px 24px;
+            background: var(--google-blue);
+            color: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            padding: 12px 24px;
             min-width: 120px;
             justify-content: flex-start;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
         }
 
         .btn.new-file:hover {
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 4px 8px 3px rgba(0, 0, 0, 0.1);
+            background: var(--google-blue-hover);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
 
         .btn.danger {
@@ -241,12 +340,22 @@
 
         .sidebar {
             grid-area: sidebar;
-            background-color: var(--bg);
+            background: var(--md-sys-color-surface);
             padding: 16px;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease-in-out;
-            border-right: 1px solid var(--border);
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            border-right: 1px solid var(--google-border);
+            width: 256px;
+            position: relative;
+        }
+        
+        .sidebar-close-btn {
+            display: none;
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 10;
         }
 
         .sidebar-nav {
@@ -261,29 +370,51 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 10px 16px;
-            border-radius: 99px;
+            padding: 8px 12px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: 500;
-            color: var(--text-primary);
+            font-weight: 400;
+            color: var(--google-text-primary);
             text-decoration: none;
-            transition: background-color 0.2s;
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            font-size: 14px;
         }
 
         .nav-item:hover {
-            background-color: var(--item-hover);
+            background: var(--google-hover);
         }
 
         .nav-item.active {
-            background-color: var(--item-selected);
-            color: var(--item-selected-border);
-            font-weight: 700;
+            background: var(--google-selected);
+            color: var(--google-blue);
+            font-weight: 500;
+        }
+
+        [data-theme="dark"] .nav-item.active {
+            background-color: var(--md-sys-color-primary);
+            color: white;
+        }
+
+        .nav-item span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-grow: 1;
+            min-width: 0;
         }
 
         .sidebar-actions {
             margin-top: auto;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
+            padding-top: 16px;
+            border-top: 1px solid var(--google-border);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .sidebar-actions .btn {
+            justify-content: flex-start;
+            text-align: left;
         }
 
         .sidebar-overlay {
@@ -305,7 +436,7 @@
             grid-area: main;
             padding: 0;
             overflow-y: auto;
-            background-color: var(--surface);
+            background: var(--md-sys-color-background);
             position: relative;
         }
 
@@ -314,16 +445,16 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 24px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--google-border);
             position: sticky;
             top: 0;
-            background-color: var(--bg);
+            background: var(--md-sys-color-surface);
             z-index: 10;
         }
 
         .main-header h1 {
-            font-size: 22px;
-            color: var(--text-primary);
+            font-size: 24px;
+            color: var(--google-text-primary);
             margin: 0;
             font-weight: 400;
         }
@@ -388,14 +519,20 @@
         }
 
         .file-item {
-            color: var(--text-primary);
-            transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+            color: var(--google-text-primary);
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
             position: relative;
             cursor: default;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background-color: var(--bg);
+            border: 1px solid var(--google-border);
+            border-radius: 8px;
+            background: var(--md-sys-color-surface);
             overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            transform: translateY(0);
+        }
+        
+        .file-item:hover {
+            transform: translateY(-2px);
         }
 
         .main-area.select-mode .file-item {
@@ -403,13 +540,13 @@
         }
 
         .file-item:hover {
-            background-color: var(--item-hover);
-            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+            background: var(--google-hover);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .file-item.selected {
-            background-color: var(--item-selected);
-            border-color: var(--item-selected-border);
+            background-color: var(--google-selected);
+            border-color: var(--google-blue);
         }
 
         .file-item .thumbnail {
@@ -417,10 +554,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--google-border);
             font-size: 3rem;
-            color: var(--text-secondary);
+            color: var(--google-text-secondary);
             overflow: hidden;
+            background: var(--google-gray-bg);
         }
 
         .thumbnail img.preview-img {
@@ -435,12 +573,15 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            background: var(--md-sys-color-surface);
         }
 
         .filename {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: var(--google-text-primary);
+            font-weight: 400;
         }
 
         .file-list.inline-view {
@@ -544,7 +685,7 @@
             align-items: center;
             justify-content: center;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            z-index: 2000;
             opacity: 0;
             visibility: hidden;
             transition: all .3s;
@@ -557,12 +698,13 @@
 
         .modal-content {
             position: relative;
-            background: var(--bg);
+            background: var(--md-sys-color-surface-container);
             padding: 2rem;
-            border-radius: 16px;
+            border-radius: 8px;
             width: 90%;
             max-width: 400px;
             text-align: center;
+            box-shadow: 0 11px 15px rgba(0,0,0,0.2), 0 9px 46px rgba(0,0,0,0.12);
         }
 
         .modal-content .avatar.large {
@@ -636,13 +778,13 @@
             display: none;
             position: absolute;
             right: 0;
-            background-color: var(--bg);
+            background-color: var(--md-sys-color-surface-container);
             min-width: 200px;
             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid var(--border);
+            border: 1px solid var(--md-sys-color-outline-variant);
         }
 
         .dropdown-content a {
@@ -719,6 +861,20 @@
                     "header"
                     "main";
             }
+            
+            .top-header {
+                padding: 8px 12px;
+            }
+            
+            .brand {
+                font-size: 18px;
+                margin-right: 1rem;
+            }
+            
+            .brand img {
+                width: 32px;
+                height: 32px;
+            }
 
             .sidebar-toggle-btn {
                 display: inline-flex;
@@ -740,6 +896,13 @@
                 z-index: 1001;
                 transform: translateX(-100%);
                 width: 280px;
+                background: var(--md-sys-color-surface);
+                box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+                padding-top: 60px;
+            }
+            
+            .sidebar-close-btn {
+                display: inline-flex;
             }
 
             .sidebar.open {
@@ -760,6 +923,14 @@
             .file-list.grid-view {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
+            }
+            
+            .file-list.grid-view .file-item {
+                border-radius: 8px;
+            }
+            
+            .file-list.grid-view .thumbnail {
+                height: 120px;
             }
 
             .file-list-container {
@@ -812,7 +983,7 @@
             align-items: center;
             justify-content: center;
             padding: 0;
-            background-color: #908e8e;
+            background-color: var(--google-gray-bg);
         }
 
         /* Ensure preview image fills thumbnail */
@@ -853,18 +1024,19 @@
 
         /* centered filename beneath the thumbnail */
         .file-list.grid-view .file-info {
-            padding: 10px 12px;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             min-height: 56px;
+            background: var(--md-sys-color-surface);
         }
 
         .file-list.grid-view .file-info .filename {
-            font-weight: 600;
+            font-weight: 400;
             font-size: 14px;
-            color: var(--text-primary);
+            color: var(--google-text-primary);
             display: block;
             max-width: 100%;
         }
@@ -880,10 +1052,731 @@
             top: 10px;
             left: 10px;
         }
+
+
+        /* Theme Modal Styles */
+        .theme-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all .3s;
+        }
+
+        .theme-modal:not(.hidden) {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .theme-modal-content {
+            background: var(--md-sys-color-surface);
+            padding: 24px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 11px 15px rgba(0,0,0,0.2);
+        }
+
+        .theme-modal h3 {
+            margin: 0 0 20px 0;
+            color: var(--google-text-primary);
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--google-gray-bg);
+            border-radius: 12px;
+        }
+
+        .theme-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: var(--google-border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .theme-switch.active {
+            background: var(--google-blue);
+        }
+
+        .theme-switch-handle {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .theme-switch.active .theme-switch-handle {
+            transform: translateX(26px);
+        }
+
+        .color-palettes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .color-palette {
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 8px;
+            transition: all 0.2s;
+            background: var(--md-sys-color-surface-variant);
+        }
+
+        .color-palette:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .color-palette.active {
+            border-color: var(--google-blue);
+            box-shadow: 0 0 0 1px var(--google-blue);
+        }
+
+        .palette-preview {
+            display: flex;
+            height: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .palette-color {
+            flex: 1;
+        }
+
+        .palette-name {
+            font-size: 12px;
+            text-align: center;
+            color: var(--google-text-secondary);
+            font-weight: 500;
+        }
+
+        /* Dynamic color palette variables */
+        [data-palette="1"] {
+            --md-sys-color-primary: #6200EE;
+            --md-sys-color-secondary: #03DAC6;
+            --md-sys-color-background: #f3f1fd;
+            --google-blue: #6200EE;
+            --google-blue-hover: #5500CC;
+            --google-selected: #e8f0fe;
+            --google-border: #dadce0;
+            --google-gray-bg: #f5f3ff;
+        }
+        
+        [data-theme="dark"][data-palette="1"] {
+            --md-sys-color-background: #24242e;
+            --google-selected: #6200EE;
+            --google-gray-bg: #2a2a35;
+        }
+
+        [data-palette="2"] {
+            --md-sys-color-primary: #3700B3;
+            --md-sys-color-secondary: #018786;
+            --md-sys-color-background: #f1effe;
+            --google-blue: #3700B3;
+            --google-blue-hover: #2E0099;
+            --google-selected: #e8f0fe;
+            --google-border: #dadce0;
+            --google-gray-bg: #f3f1ff;
+        }
+        
+        [data-theme="dark"][data-palette="2"] {
+            --md-sys-color-background: #23232e;
+            --google-selected: #3700B3;
+            --google-gray-bg: #2a2a35;
+        }
+
+        [data-palette="3"] {
+            --md-sys-color-primary: #006064;
+            --md-sys-color-secondary: #FFAB00;
+            --md-sys-color-background: #ecfbfb;
+            --google-blue: #006064;
+            --google-blue-hover: #004D50;
+            --google-selected: #e0f2f1;
+            --google-border: #b2dfdb;
+            --google-gray-bg: #f0f5f5;
+        }
+        
+        [data-theme="dark"][data-palette="3"] {
+            --md-sys-color-background: #1f2a2a;
+            --google-selected: #006064;
+            --google-gray-bg: #2a3030;
+        }
+
+        [data-palette="4"] {
+            --md-sys-color-primary: #880E4F;
+            --md-sys-color-secondary: #FFC107;
+            --md-sys-color-background: #fdecec;
+            --google-blue: #880E4F;
+            --google-blue-hover: #6D0B3F;
+            --google-selected: #fce4ec;
+            --google-border: #f8bbd9;
+            --google-gray-bg: #fff5f8;
+        }
+        
+        [data-theme="dark"][data-palette="4"] {
+            --md-sys-color-background: #1f1a1c;
+            --google-selected: #880E4F;
+            --google-gray-bg: #302a2c;
+        }
+
+        [data-palette="5"] {
+            --md-sys-color-primary: #4A148C;
+            --md-sys-color-secondary: #FF6D00;
+            --md-sys-color-background: #efecff;
+            --google-blue: #4A148C;
+            --google-blue-hover: #3B1070;
+            --google-selected: #ede7f6;
+            --google-border: #d1c4e9;
+            --google-gray-bg: #f5f3ff;
+        }
+        
+        [data-theme="dark"][data-palette="5"] {
+            --md-sys-color-background: #2b2b37;
+            --google-selected: #4A148C;
+            --google-gray-bg: #2a2a35;
+        }
+
+        [data-palette="6"] {
+            --md-sys-color-primary: #B71C1C;
+            --md-sys-color-secondary: #2962FF;
+            --md-sys-color-background: #fae3e3;
+            --google-blue: #B71C1C;
+            --google-blue-hover: #9A1717;
+            --google-selected: #ffebee;
+            --google-border: #ffcdd2;
+            --google-gray-bg: #fff5f5;
+        }
+        
+        [data-theme="dark"][data-palette="6"] {
+            --md-sys-color-background: #332828;
+            --google-selected: #B71C1C;
+            --google-gray-bg: #302a2a;
+        }
+
+        [data-palette="7"] {
+            --md-sys-color-primary: #1A237E;
+            --md-sys-color-secondary: #00BFA5;
+            --md-sys-color-background: #e9e9fd;
+            --google-blue: #1A237E;
+            --google-blue-hover: #151C65;
+            --google-selected: #e8eaf6;
+            --google-border: #c5cae9;
+            --google-gray-bg: #f5f5ff;
+        }
+        
+        [data-theme="dark"][data-palette="7"] {
+            --md-sys-color-background: #2a2a36;
+            --google-selected: #1A237E;
+            --google-gray-bg: #2a2a35;
+        }
+
+        [data-palette="8"] {
+            --md-sys-color-primary: #0D47A1;
+            --md-sys-color-secondary: #FFD600;
+            --md-sys-color-background: #ebf0fd;
+            --google-blue: #0D47A1;
+            --google-blue-hover: #0A3981;
+            --google-selected: #e3f2fd;
+            --google-border: #bbdefb;
+            --google-gray-bg: #f0f5ff;
+        }
+        
+        [data-theme="dark"][data-palette="8"] {
+            --md-sys-color-background: #272b32;
+            --google-selected: #0D47A1;
+            --google-gray-bg: #2a2c35;
+        }
+
+        [data-palette="9"] {
+            --md-sys-color-primary: #004D40;
+            --md-sys-color-secondary: #FFAB40;
+            --md-sys-color-background: #e3fdfd;
+            --google-blue: #004D40;
+            --google-blue-hover: #003D33;
+            --google-selected: #e0f2f1;
+            --google-border: #b2dfdb;
+            --google-gray-bg: #f0fff8;
+        }
+        
+        [data-theme="dark"][data-palette="9"] {
+            --md-sys-color-background: #26352c;
+            --google-selected: #004D40;
+            --google-gray-bg: #2a302c;
+        }
+
+        [data-palette="10"] {
+            --md-sys-color-primary: #E65100;
+            --md-sys-color-secondary: #42A5F5;
+            --md-sys-color-background: #fbeade;
+            --google-blue: #E65100;
+            --google-blue-hover: #CC4900;
+            --google-selected: #fff3e0;
+            --google-border: #ffcc02;
+            --google-gray-bg: #fff8f0;
+        }
+        
+        [data-theme="dark"][data-palette="10"] {
+            --md-sys-color-background: #362e29;
+            --google-selected: #E65100;
+            --google-gray-bg: #302c2a;
+        }
+
+        [data-palette="11"] {
+            --md-sys-color-primary: #BF360C;
+            --md-sys-color-secondary: #00ACC1;
+            --md-sys-color-background: #fadede;
+            --google-blue: #BF360C;
+            --google-blue-hover: #A62F0A;
+            --google-selected: #fbe9e7;
+            --google-border: #ffab91;
+            --google-gray-bg: #fff5f0;
+        }
+        
+        [data-theme="dark"][data-palette="11"] {
+            --md-sys-color-background: #332727;
+            --google-selected: #BF360C;
+            --google-gray-bg: #302a2a;
+        }
+
+        [data-palette="12"] {
+            --md-sys-color-primary: #3E2723;
+            --md-sys-color-secondary: #FF6F00;
+            --md-sys-color-background: #fafad8;
+            --google-blue: #3E2723;
+            --google-blue-hover: #2E1C19;
+            --google-selected: #efebe9;
+            --google-border: #d7ccc8;
+            --google-gray-bg: #f5f5f0;
+        }
+        
+        [data-theme="dark"][data-palette="12"] {
+            --md-sys-color-background: #1f1f1a;
+            --google-selected: #3E2723;
+            --google-gray-bg: #30302a;
+        }
+
+        [data-palette="13"] {
+            --md-sys-color-primary: #263238;
+            --md-sys-color-secondary: #FFC400;
+            --md-sys-color-background: #d6fafa;
+            --google-blue: #263238;
+            --google-blue-hover: #1C262A;
+            --google-selected: #eceff1;
+            --google-border: #cfd8dc;
+            --google-gray-bg: #f5f8f8;
+        }
+        
+        [data-theme="dark"][data-palette="13"] {
+            --md-sys-color-background: #263131;
+            --google-selected: #263238;
+            --google-gray-bg: #2a2c2c;
+        }
+
+        [data-palette="14"] {
+            --md-sys-color-primary: #311B92;
+            --md-sys-color-secondary: #00E676;
+            --md-sys-color-background: #e2ddfa;
+            --google-blue: #311B92;
+            --google-blue-hover: #281575;
+            --google-selected: #ede7f6;
+            --google-border: #d1c4e9;
+            --google-gray-bg: #f5f3ff;
+        }
+        
+        [data-theme="dark"][data-palette="14"] {
+            --md-sys-color-background: #2c2c3a;
+            --google-selected: #311B92;
+            --google-gray-bg: #2a2a35;
+        }
+
+        [data-palette="15"] {
+            --md-sys-color-primary: #AD1457;
+            --md-sys-color-secondary: #FFAB00;
+            --md-sys-color-background: #fbe2ec;
+            --google-blue: #AD1457;
+            --google-blue-hover: #8F1047;
+            --google-selected: #fce4ec;
+            --google-border: #f8bbd9;
+            --google-gray-bg: #fff5f8;
+        }
+        
+        [data-theme="dark"][data-palette="15"] {
+            --md-sys-color-background: #34272c;
+            --google-selected: #AD1457;
+            --google-gray-bg: #302a2c;
+        }
+
+        [data-palette="16"] {
+            --md-sys-color-primary: #D81B60;
+            --md-sys-color-secondary: #00B8D4;
+            --md-sys-color-background: #fadae7;
+            --google-blue: #D81B60;
+            --google-blue-hover: #C11650;
+            --google-selected: #fce4ec;
+            --google-border: #f8bbd9;
+            --google-gray-bg: #fff5f8;
+        }
+        
+        [data-theme="dark"][data-palette="16"] {
+            --md-sys-color-background: #1f1a1c;
+            --google-selected: #D81B60;
+            --google-gray-bg: #302a2c;
+        }
+
+        [data-palette="17"] {
+            --md-sys-color-primary: #5E35B1;
+            --md-sys-color-secondary: #FFEA00;
+            --md-sys-color-background: #e8def7;
+            --google-blue: #5E35B1;
+            --google-blue-hover: #4E2C94;
+            --google-selected: #ede7f6;
+            --google-border: #d1c4e9;
+            --google-gray-bg: #f8f5ff;
+        }
+        
+        [data-theme="dark"][data-palette="17"] {
+            --md-sys-color-background: #1c1a1f;
+            --google-selected: #5E35B1;
+            --google-gray-bg: #2c2a35;
+        }
+
+        [data-palette="18"] {
+            --md-sys-color-primary: #0277BD;
+            --md-sys-color-secondary: #FF9100;
+            --md-sys-color-background: #d9ebf9;
+            --google-blue: #0277BD;
+            --google-blue-hover: #02619A;
+            --google-selected: #e1f5fe;
+            --google-border: #b3e5fc;
+            --google-gray-bg: #f0f8ff;
+        }
+        
+        [data-theme="dark"][data-palette="18"] {
+            --md-sys-color-background: #1a1c1f;
+            --google-selected: #0277BD;
+            --google-gray-bg: #2a2c35;
+        }
+
+        [data-palette="19"] {
+            --md-sys-color-primary: #00695C;
+            --md-sys-color-secondary: #FFC107;
+            --md-sys-color-background: #d8f9f9;
+            --google-blue: #00695C;
+            --google-blue-hover: #00544A;
+            --google-selected: #e0f2f1;
+            --google-border: #b2dfdb;
+            --google-gray-bg: #f0fff8;
+        }
+        
+        [data-theme="dark"][data-palette="19"] {
+            --md-sys-color-background: #1a1f1c;
+            --google-selected: #00695C;
+            --google-gray-bg: #2a302c;
+        }
+
+        [data-palette="20"] {
+            --md-sys-color-primary: #C62828;
+            --md-sys-color-secondary: #2979FF;
+            --md-sys-color-background: #fbdfdf;
+            --google-blue: #C62828;
+            --google-blue-hover: #A52222;
+            --google-selected: #ffebee;
+            --google-border: #ffcdd2;
+            --google-gray-bg: #fff5f5;
+        }
+        
+        [data-theme="dark"][data-palette="20"] {
+            --md-sys-color-background: #1f1a1a;
+            --google-selected: #C62828;
+            --google-gray-bg: #302a2a;
+        }
+
+        
+        /* Account Modal - Pixel Experience Material You Style */
+        #accountModal .modal-content {
+            background: var(--md-sys-color-surface-container-high);
+            border-radius: 28px;
+            padding: 24px;
+            max-width: 380px;
+            box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        [data-theme="dark"] #accountModal .modal-content {
+            background: var(--md-sys-color-surface-container);
+        }
+
+        #accountModal #activeAccountInfo {
+            margin-bottom: 24px;
+        }
+
+        #accountModal #accUsername {
+            font-size: 22px;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+            margin: 16px 0 4px 0;
+        }
+
+        #accountModal #accEmail {
+            color: var(--md-sys-color-on-surface-variant);
+            margin: 0 0 16px 0;
+        }
+
+        #accountModal .avatar.large {
+            width: 96px;
+            height: 96px;
+            border: 4px solid var(--md-sys-color-surface);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        #accountModal .btn {
+            width: 100%;
+            border-radius: 18px;
+            font-weight: 500;
+            min-height: 48px;
+        }
+
+        /* "Change Photo" and "Add Account" as Tonal Buttons */
+        #accountModal #activeAccountInfo .btn,
+        #accountModal .btn[onclick="addAccount()"] {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+
+        #accountModal #activeAccountInfo .btn:hover,
+        #accountModal .btn[onclick="addAccount()"]:hover {
+            background-color: var(--md-sys-color-surface-container-highest);
+        }
+
+        /* Account List styling */
+        #accountModal .accounts-container {
+            border: none;
+            margin: 24px 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #accountModal .account-item {
+            padding: 8px;
+            border-radius: 16px;
+            transition: background-color 0.2s;
+        }
+
+        #accountModal .account-item:hover {
+            background-color: var(--md-sys-color-surface-container-highest);
+            opacity: 1;
+        }
+
+        /* Sign out button as Error Filled Button */
+        #accountModal .btn[onclick="logoutFromAll()"] {
+            background-color: var(--md-sys-color-error);
+            color: var(--md-sys-color-on-error);
+            margin-top: 8px;
+        }
+
+        #accountModal .btn[onclick="logoutFromAll()"]:hover {
+            opacity: 0.9;
+            box-shadow: 0 1px 3px 1px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Account Modal Close Button */
+        #accountModal .modal-content > .btn.icon-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: auto; /* Override width: 100% from general .btn style in modal */
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        #accountModal .modal-content > .btn.icon-btn:hover {
+            background-color: var(--md-sys-color-surface-container-highest);
+        }
+
+        /* Access PIN Modal */
+        .access-modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(4px);
+        }
+
+        .access-modal-content {
+            background: var(--md-sys-color-surface-container-high);
+            padding: 24px;
+            border-radius: 28px;
+            text-align: center;
+            max-width: 360px;
+            width: 90%;
+            box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        [data-theme="dark"] .access-modal-content {
+            background: var(--md-sys-color-surface-container);
+        }
+
+        .access-modal-content h3 {
+            margin: 0 0 8px 0;
+            color: var(--md-sys-color-on-surface);
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        .access-modal-content p {
+            margin: 0 0 24px 0;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        /* Desktop PIN Input */
+        #accessInput {
+            width: 100%;
+            padding: 16px;
+            margin: 16px 0;
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: 8px;
+            background: var(--md-sys-color-surface-container-highest);
+            color: var(--md-sys-color-on-surface);
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 0.5em;
+        }
+
+        #accessInput:focus {
+            outline: none;
+            border-color: var(--md-sys-color-primary);
+            box-shadow: 0 0 0 1px var(--md-sys-color-primary);
+        }
+
+        /* Mobile PIN Display */
+        .pin-display {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 24px 0;
+            height: 24px;
+        }
+
+        .pin-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--md-sys-color-surface-container-highest);
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .pin-dot.filled {
+            background-color: var(--md-sys-color-primary);
+            transform: scale(1.1);
+        }
+
+        /* Mobile Numpad */
+        .numpad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 24px;
+            justify-items: center;
+        }
+
+        .numpad-key {
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            width: 72px;
+            height: 72px;
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--md-sys-color-on-surface);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .numpad-key:hover {
+            background-color: var(--md-sys-color-surface-container-highest);
+        }
+
+        .numpad-key:active {
+            background-color: var(--md-sys-color-surface-container-high);
+        }
+
+        #accessError {
+            color: var(--md-sys-color-error);
+            margin: 16px 0 0 0;
+            min-height: 1.2em;
+        }
+
+        .access-modal-actions {
+            margin-top: 24px;
+        }
+
+        .access-modal-actions .btn {
+            width: 100%;
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translateX(-1px); }
+            20%, 80% { transform: translateX(2px); }
+            30%, 50%, 70% { transform: translateX(-4px); }
+            40%, 60% { transform: translateX(4px); }
+        }
+
+        /* Responsive Logic */
+        @media (max-width: 500px) {
+            #accessInput, .access-modal-actions { display: none; }
+        }
+
+        @media (min-width: 501px) {
+            .pin-display, .numpad { display: none; }
+        }
     </style>
 </head>
 
 <body data-theme="light">
+    <div id="splash-screen">
+        <img src="icon.png" alt="7Drive">
+    </div>
     <div class="dashboard-grid">
         <div class="sidebar-overlay"></div>
         <header class="top-header">
@@ -893,11 +1786,12 @@
                 </svg>
             </button>
             <div class="brand">
-                <img src="icon.png" alt="7Drive" style="width:56px;height:55px;">
+                <img src="icon.png" alt="7Drive" style="width:40px;height:40px;">
+                <span>7Drive</span>
             </div>
             <div class="search-container">
                 <div class="search-bar">
-                    <svg viewBox="0 0 24 24" style="color: var(--text-secondary)">
+                    <svg viewBox="0 0 24 24" style="color: var(--google-text-secondary)">
                         <path
                             d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
                         </path>
@@ -919,6 +1813,12 @@
         </header>
 
         <aside class="sidebar">
+            <button class="btn icon-btn sidebar-close-btn" onclick="closeMobileSidebar()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+            
             <button class="btn new-file" onclick="fileInput.click()">
                 <svg viewBox="0 0 24 24">
                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
@@ -926,7 +1826,38 @@
                 <span>New</span>
             </button>
 
-            <nav id="folderList" class="sidebar-nav"></nav>
+            <nav id="folderList" class="sidebar-nav">
+                <a href="#" class="nav-item active" data-folder="home">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    <span>My Drive</span>
+                </a>
+                <a href="#" class="nav-item" data-folder="shared">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                    </svg>
+                    <span>Shared with me</span>
+                </a>
+                <a href="#" class="nav-item" data-folder="recent">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                    </svg>
+                    <span>Recent</span>
+                </a>
+                <a href="#" class="nav-item" data-folder="starred">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                    <span>Starred</span>
+                </a>
+                <a href="#" class="nav-item" data-folder="trash">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                    </svg>
+                    <span>Trash</span>
+                </a>
+            </nav>
 
             <div class="sidebar-actions">
                 <button class="btn" onclick="createFolder()">
@@ -936,6 +1867,12 @@
                     </svg>
                     <span>New Folder</span>
                 </button>
+                <button class="btn" onclick="deleteFolder()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path>
+                    </svg>
+                    <span>Delete Folder</span>
+                </button>
                 <button class="btn" onclick="downloadSelected()">
                     <svg viewBox="0 0 24 24">
                         <path
@@ -944,7 +1881,7 @@
                     </svg>
                     <span>Download</span>
                 </button>
-                <button class="btn" id="deleteBtn" style="display: none;">
+                <button class="btn" id="deleteBtn" style="display: none;" onclick="deleteSelected()">
                     <svg viewBox="0 0 24 24">
                         <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path>
                     </svg>
@@ -974,7 +1911,7 @@
              0 0,0 2,12A10,10 0 0,0 12,22A10,10 
              0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
                     </svg>
-                   <a style="text-decoration: none; color: antiquewhite;" href="about.html"> <span>About</span></a>
+                   <a style="text-decoration: none; color: var(--text-primary);" href="about.html"> <span>About</span></a>
                 </button>
 
                 <!-- Contact Us Button -->
@@ -985,8 +1922,23 @@
              22,20V4C22,2.89 21.1,2 20,2M20,6.41 
              L12,13L4,6.41V4L12,11L20,4V6.41Z" />
                     </svg>
-                    <a style="text-decoration: none; color: antiquewhite;" href="contact.html
-                    "><span>Contact Us</span></a>
+                    <a style="text-decoration: none; color: var(--text-primary);" href="contact.html"><span>Contact Us</span></a>
+                </button>
+
+                <!-- Theme Button -->
+                <button class="btn" id="theme-btn" onclick="showThemeModal()">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M12,18V6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M20,15.31L23.31,12L20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31Z" />
+                    </svg>
+                    <span>Theme</span>
+                </button>
+
+                <!-- Manage PIN Button -->
+                <button class="btn" id="manage-pin-btn" onclick="showPinManagementModal()">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />
+                    </svg>
+                    <span id="pin-btn-text">Manage PIN</span>
                 </button>
 
             </div>
@@ -1132,8 +2084,7 @@
     <div id="accountModal" class="modal hidden">
         <div class="modal-backdrop" onclick="this.parentElement.classList.add('hidden')"></div>
         <div class="modal-content">
-            <button class="btn icon-btn" style="position: absolute; top: 1rem; right: 1rem;"
-                onclick="this.closest('.modal').classList.add('hidden')">
+            <button class="btn icon-btn" onclick="this.closest('.modal').classList.add('hidden')">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
@@ -1143,14 +2094,13 @@
             <div id="activeAccountInfo">
                 <img id="accPic" class="avatar large" src="https://placehold.co/90x90/EFEFEF/AAAAAA&text=側" />
                 <h3 id="accUsername">Username</h3>
-                <p id="accEmail" style="color: var(--text-secondary)">user@example.com</p>
+                <p id="accEmail">user@example.com</p>
                 <input type="file" id="uploadProfilePic" accept="image/*" hidden />
                 <button class="btn" onclick="uploadProfilePic.click()">Change Photo</button>
             </div>
             <div id="accountList" class="accounts-container"></div>
-            <button class="btn" style="width: 100%;" onclick="addAccount()">Add another account</button>
-            <button class="btn" style="background-color: var(--danger); color: white; width: 100%; margin-top: 1rem;"
-                onclick="logoutFromAll()">Sign out of all accounts</button>
+            <button class="btn" onclick="addAccount()">Add another account</button>
+            <button class="btn" onclick="logoutFromAll()">Sign out of all accounts</button>
         </div>
     </div>
 
@@ -1191,11 +2141,189 @@
         </div>
     </div>
 
+    <div id="pinManagementModal" class="modal hidden">
+        <div class="modal-backdrop" onclick="this.parentElement.classList.add('hidden')"></div>
+        <div class="modal-content" style="max-width: 500px;">
+            <h3 id="pinManagementTitle">Manage Access PIN</h3>
+            
+            <!-- Action Selection -->
+            <div id="actionSelection" style="margin-bottom: 2rem;">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <button id="changePinBtn" class="btn" style="justify-content: flex-start; text-align: left; padding: 16px; background: var(--md-sys-color-surface-container-high); border: 2px solid var(--google-border);">
+                        <div>
+                            <div style="font-weight: 500; color: var(--google-text-primary);">Change PIN</div>
+                            <div style="font-size: 14px; color: var(--google-text-secondary);">Update your current PIN</div>
+                        </div>
+                    </button>
+                    
+                    <button id="removePinBtn" class="btn" style="justify-content: flex-start; text-align: left; padding: 16px; background: var(--md-sys-color-surface-container-high); border: 2px solid var(--google-border);">
+                        <div>
+                            <div style="font-weight: 500; color: var(--google-text-primary);">Remove PIN</div>
+                            <div style="font-size: 14px; color: var(--google-text-secondary);">Remove PIN protection from your account</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Change PIN Form -->
+            <div id="changePinForm" style="display: none;">
+                <div id="oldPinContainer">
+                    <label style="display: block; margin-bottom: 8px; color: var(--google-text-primary); font-weight: 500;">Current PIN</label>
+                    <input type="password" id="oldPin" placeholder="Enter current PIN" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid var(--md-sys-color-outline-variant); border-radius: 8px; background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface);" maxlength="6">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 8px; color: var(--google-text-primary); font-weight: 500;">New PIN</label>
+                    <input type="password" id="newPin" placeholder="Enter new PIN" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid var(--md-sys-color-outline-variant); border-radius: 8px; background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface);" maxlength="6">
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                    <button id="savePinBtn" class="btn" style="background-color: var(--google-blue); color: white;">Save Changes</button>
+                    <button id="cancelChangeBtn" class="btn">Cancel</button>
+                </div>
+            </div>
+            
+            <!-- Remove PIN Form -->
+            <div id="removePinForm" style="display: none;">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--google-text-primary); font-weight: 500;">Verification Method</label>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="radio" name="verificationMethod" value="pin" checked style="margin-right: 8px;">
+                            <span style="color: var(--google-text-primary);">Current PIN</span>
+                        </label>
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="radio" name="verificationMethod" value="email" style="margin-right: 8px;">
+                            <span style="color: var(--google-text-primary);">Email & Password</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div id="pinVerification">
+                    <label style="display: block; margin-bottom: 8px; color: var(--google-text-primary); font-weight: 500;">Current PIN</label>
+                    <input type="password" id="removePinInput" placeholder="Enter current PIN" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid var(--md-sys-color-outline-variant); border-radius: 8px; background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface);" maxlength="6">
+                </div>
+                
+                <div id="emailVerification" style="display: none;">
+                    <div style="margin-bottom: 1rem; padding: 12px; background: var(--md-sys-color-surface-container-low); border-radius: 8px; border-left: 4px solid var(--google-blue);">
+                        <div style="font-size: 14px; color: var(--google-text-secondary);">
+                            <strong>Note:</strong> This method only works if you signed up with email and password. If you used Google sign-in, please use PIN verification instead.
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 8px; color: var(--google-text-primary); font-weight: 500;">Email</label>
+                        <input type="email" id="removeEmailInput" placeholder="Enter your email" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid var(--md-sys-color-outline-variant); border-radius: 8px; background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface);">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; color: var(--google-text-primary); font-weight: 500;">Password</label>
+                        <input type="password" id="removePasswordInput" placeholder="Enter your password" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid var(--md-sys-color-outline-variant); border-radius: 8px; background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface);">
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                    <button id="confirmRemoveBtn" class="btn" style="background-color: var(--md-sys-color-error); color: white;">Remove PIN</button>
+                    <button id="cancelRemoveBtn" class="btn">Cancel</button>
+                </div>
+            </div>
+            
+            <div id="pinError" style="color: var(--md-sys-color-error); margin: 8px 0; display: none;"></div>
+        </div>
+    </div>
+
+    <!-- First Time Setup Modal -->
+    <div id="setupModal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content" style="max-width: 500px;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <img src="icon.png" alt="7Drive" style="width: 80px; height: 80px; margin-bottom: 1rem; border-radius: 8px;">
+                <h2 style="margin: 0 0 0.5rem 0; color: var(--google-text-primary);">Welcome to 7Drive!</h2>
+                <p style="margin: 0; color: var(--google-text-secondary);">Let's set up your account security</p>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                <h3 style="margin: 0 0 1rem 0; color: var(--google-text-primary);">Choose your security preference:</h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <label style="display: flex; align-items: center; padding: 16px; border: 2px solid var(--google-border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.borderColor='var(--google-blue)'" onmouseout="this.style.borderColor='var(--google-border)'">
+                        <input type="radio" name="securityOption" value="password" style="margin-right: 12px; transform: scale(1.2);" checked>
+                        <div>
+                            <div style="font-weight: 500; color: var(--google-text-primary);">Set up a PIN for extra security</div>
+                            <div style="font-size: 14px; color: var(--google-text-secondary);">Protect your files with a personal PIN</div>
+                        </div>
+                    </label>
+                    
+                    <label style="display: flex; align-items: center; padding: 16px; border: 2px solid var(--google-border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.borderColor='var(--google-blue)'" onmouseout="this.style.borderColor='var(--google-border)'">
+                        <input type="radio" name="securityOption" value="skip" style="margin-right: 12px; transform: scale(1.2);">
+                        <div>
+                            <div style="font-weight: 500; color: var(--google-text-primary);">Skip PIN setup for now</div>
+                            <div style="font-size: 14px; color: var(--google-text-secondary);">You can always set it up later in settings</div>
+                        </div>
+                    </label>
+                    
+                    <label style="display: flex; align-items: center; padding: 16px; border: 2px solid var(--google-border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.borderColor='var(--google-blue)'" onmouseout="this.style.borderColor='var(--google-border)'">
+                        <input type="radio" name="securityOption" value="skip-permanent" style="margin-right: 12px; transform: scale(1.2);">
+                        <div>
+                            <div style="font-weight: 500; color: var(--google-text-primary);">Skip PIN setup permanently</div>
+                            <div style="font-size: 14px; color: var(--google-text-secondary);">Don't ask me about PIN setup again</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <div id="passwordSetup" style="display: block;">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--google-text-primary); font-weight: 500;">Create your PIN</label>
+                    <input type="password" id="setupPin" placeholder="Enter a 4-6 character PIN" style="width: 100%; padding: 12px; border: 1px solid var(--google-border); border-radius: 8px; background: var(--md-sys-color-surface-container-high); color: var(--google-text-primary); font-size: 16px;" maxlength="6">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 8px; color: var(--google-text-primary); font-weight: 500;">Confirm your PIN</label>
+                    <input type="password" id="confirmSetupPin" placeholder="Confirm your PIN" style="width: 100%; padding: 12px; border: 1px solid var(--google-border); border-radius: 8px; background: var(--md-sys-color-surface-container-high); color: var(--google-text-primary); font-size: 16px;" maxlength="6">
+                </div>
+                <div id="setupError" style="color: var(--md-sys-color-error); margin: 8px 0; display: none; font-size: 14px;"></div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                <button id="completeSetupBtn" class="btn" onclick="completeSetup()" style="background-color: var(--google-blue); color: white; padding: 12px 24px; min-width: 120px;">Complete Setup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Modal -->
+    <div id="themeModal" class="theme-modal hidden">
+        <div class="theme-modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Customize Theme</h3>
+                <button class="btn icon-btn" onclick="closeThemeModal()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="theme-toggle">
+                <div>
+                    <div style="font-weight: 500; color: var(--google-text-primary);">Dark Mode</div>
+                    <div style="font-size: 14px; color: var(--google-text-secondary);">Switch between light and dark themes</div>
+                </div>
+                <div class="theme-switch" id="themeSwitch" onclick="toggleThemeMode()">
+                    <div class="theme-switch-handle"></div>
+                </div>
+            </div>
+            
+            <div>
+                <h4 style="margin: 0 0 16px 0; color: var(--google-text-primary);">Color Palettes</h4>
+                <div class="color-palettes" id="colorPalettes">
+                    <!-- Color palettes will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script type="module">
+        // Import Firebase modules first
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
         import { getStorage, ref, getDownloadURL, listAll, getMetadata, uploadBytes, deleteObject } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCYY2GQqS0tCXb7Oxw8AWXhpexq9e8VRUs",
@@ -1209,6 +2337,476 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const storage = getStorage(app);
+        const db = getFirestore(app);
+
+        // SHA-256 Lock Check
+        const REQUIRED_HASH = "62ffe595c01fd8790516bc21f54ad48866242883df339f69272248c28b18a0bc";
+        
+        async function sha256(text) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(text);
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        
+        let isUnlocked = sessionStorage.getItem('unlocked') === 'true';
+        
+        function showAccessModal() {
+            const modalContainer = document.createElement('div');
+            modalContainer.innerHTML = `
+                <div class="access-modal-container">
+                    <div class="access-modal-content">
+                        <h3>Access Required</h3>
+                        <p>Enter your PIN to continue</p>
+                        
+                        <input type="password" id="accessInput" placeholder="••••" autocomplete="off" autofocus maxlength="6">
+                        
+                        <div class="pin-display" id="pinDisplay"></div>
+                        
+                        <div class="numpad">
+                            <button class="numpad-key" data-key="1">1</button>
+                            <button class="numpad-key" data-key="2">2</button>
+                            <button class="numpad-key" data-key="3">3</button>
+                            <button class="numpad-key" data-key="4">4</button>
+                            <button class="numpad-key" data-key="5">5</button>
+                            <button class="numpad-key" data-key="6">6</button>
+                            <button class="numpad-key" data-key="7">7</button>
+                            <button class="numpad-key" data-key="8">8</button>
+                            <button class="numpad-key" data-key="9">9</button>
+                            <div class="numpad-key" style="cursor:default;"></div>
+                            <button class="numpad-key" data-key="0">0</button>
+                            <button class="numpad-key" data-key="backspace">
+                                <svg viewBox="0 0 24 24"><path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.12c.36.53.9.88 1.59.88h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 12.59L17.59 17 14 13.41 10.41 17 9 15.59 12.59 12 9 8.41 10.41 7 14 10.59 17.59 7 19 8.41 15.41 12 19 15.59z"></path></svg>
+                            </button>
+                        </div>
+                        
+                        <div id="accessError" style="display: none;">Invalid PIN</div>
+                        
+                        <div class="access-modal-actions">
+                            <button onclick="verifyAccess()" class="btn">Enter</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.innerHTML = ''; // Clear body before appending
+            document.body.appendChild(modalContainer);
+
+            let mobilePin = '';
+            const pinDisplay = document.getElementById('pinDisplay');
+            const MAX_PIN_LENGTH = 6;
+            
+            for (let i = 0; i < MAX_PIN_LENGTH; i++) {
+                pinDisplay.appendChild(document.createElement('div')).className = 'pin-dot';
+            }
+
+            window.handleNumpadClick = (key) => {
+                const dots = pinDisplay.querySelectorAll('.pin-dot');
+                document.getElementById('accessError').style.display = 'none';
+                if (key === 'backspace') mobilePin = mobilePin.slice(0, -1);
+                else if (mobilePin.length < MAX_PIN_LENGTH) mobilePin += key;
+                
+                dots.forEach((dot, i) => dot.classList.toggle('filled', i < mobilePin.length));
+                if (mobilePin.length === MAX_PIN_LENGTH) setTimeout(() => verifyAccess(mobilePin), 200);
+            };
+
+            document.querySelectorAll('.numpad-key').forEach(b => b.onclick = () => handleNumpadClick(b.dataset.key));
+
+            setTimeout(() => {
+                const input = document.getElementById('accessInput');
+                if (input) {
+                    input.focus();
+                    input.addEventListener('keydown', e => e.key === 'Enter' && (e.preventDefault(), verifyAccess()));
+                }
+            }, 100);
+        }
+        
+        window.verifyAccess = async (mobilePinValue) => {
+            const isMobile = window.innerWidth <= 500;
+            const pin = isMobile ? mobilePinValue : document.getElementById('accessInput').value.trim();
+            if (!pin) return;
+            const errorEl = document.getElementById('accessError');
+
+            try {
+                const hash = await sha256(pin);
+                const user = auth.currentUser;
+                
+                if (user) {
+                    // Check user-specific PIN first
+                    const userDocRef = doc(db, "userPins", user.uid);
+                    const userDocSnap = await getDoc(userDocRef);
+                    if (userDocSnap.exists()) {
+                        const userPinHash = userDocSnap.data().pinHash;
+                        if (userPinHash && hash === userPinHash) {
+                            isUnlocked = true;
+                            sessionStorage.setItem('unlocked', 'true');
+                            location.reload();
+                            return;
+                        }
+                    }
+                }
+                
+                // Fallback to default PIN for backward compatibility
+                if (hash === REQUIRED_HASH) {
+                    isUnlocked = true;
+                    sessionStorage.setItem('unlocked', 'true');
+                    location.reload();
+                } else {
+                errorEl.style.display = 'block';
+                if (isMobile) {
+                    const pinDisplay = document.getElementById('pinDisplay');
+                    pinDisplay.style.animation = 'shake 0.5s';
+                    setTimeout(() => {
+                        pinDisplay.style.animation = '';
+                        for (let i = 0; i < pin.length; i++) handleNumpadClick('backspace');
+                    }, 500);
+                } else {
+                    const input = document.getElementById('accessInput');
+                    input.value = '';
+                    input.focus();
+                }
+                }
+            } catch (error) {
+                console.error('PIN verification error:', error);
+            errorEl.style.display = 'block';
+            }
+        }
+        
+        // Auto-lock on tab switch
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                setTimeout(() => {
+                    if (document.hidden && isUnlocked) {
+                        isUnlocked = false;
+                        sessionStorage.removeItem('unlocked');
+                        location.reload();
+                    }
+                }, 15000);
+            }
+        });
+        
+        // Wait for auth to be ready before checking access
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is logged in, check if they need setup or access
+                const userSetupKey = `userSetup_${user.uid}`;
+                const hasCompletedSetup = localStorage.getItem(userSetupKey);
+
+                // Fetch user PIN from Firestore
+                const userDocRef = doc(db, "userPins", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                const userPinHash = userDocSnap.exists() ? userDocSnap.data().pinHash : null;
+                
+                // Update PIN button text based on PIN status
+                const pinBtnText = document.getElementById('pin-btn-text');
+                if (pinBtnText) {
+                    pinBtnText.textContent = userPinHash ? 'Manage PIN' : 'Set PIN';
+                }
+
+                // If user hasn't completed setup yet, show setup modal
+                if (!hasCompletedSetup) {
+                    showFirstTimeSetup(user);
+                    return;
+                }
+                
+                // If user completed setup but skipped PIN (temporarily or permanently), allow access
+                if (hasCompletedSetup && !userPinHash) {
+                    isUnlocked = true;
+                    sessionStorage.setItem('unlocked', 'true');
+                    initDashboard(user);
+                    return;
+                }
+                
+                // If user has a PIN, check access
+                if (userPinHash && !isUnlocked) {
+                    showAccessModal();
+                    return;
+                }
+                
+                // Initialize the dashboard (user is already unlocked)
+                initDashboard(user);
+            } else {
+                // No user logged in, redirect to login
+                window.location.href = "index.html";
+            }
+        });
+        
+        window.showPinManagementModal = async () => {
+            closeMobileSidebar();
+            const user = auth.currentUser;
+            const pinModal = document.getElementById('pinManagementModal');
+            const pinBtnText = document.getElementById('pin-btn-text');
+
+            const userDocRef = doc(db, "userPins", user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+            const userPinHash = userDocSnap.exists() ? userDocSnap.data().pinHash : null;
+            
+            // Update button text based on PIN status
+            pinBtnText.textContent = userPinHash ? 'Manage PIN' : 'Set PIN';
+            
+            // Reset modal to initial state
+            document.getElementById('actionSelection').style.display = 'block';
+            document.getElementById('changePinForm').style.display = 'none';
+            document.getElementById('removePinForm').style.display = 'none';
+            document.getElementById('pinError').style.display = 'none';
+            
+            // Clear all inputs
+            document.getElementById('oldPin').value = '';
+            document.getElementById('newPin').value = '';
+            document.getElementById('removePinInput').value = '';
+            document.getElementById('removeEmailInput').value = '';
+            document.getElementById('removePasswordInput').value = '';
+            
+            // Show/hide options based on PIN status
+            if (userPinHash) {
+                // User has PIN - show both change and remove options
+                document.getElementById('changePinBtn').style.display = 'block';
+                document.getElementById('removePinBtn').style.display = 'block';
+            } else {
+                // User doesn't have PIN - only show set PIN option
+                document.getElementById('changePinBtn').style.display = 'none';
+                document.getElementById('removePinBtn').style.display = 'none';
+                // Show set PIN form directly
+                showSetPinForm();
+            }
+            
+            pinModal.classList.remove('hidden');
+        }
+        
+        function showSetPinForm() {
+            document.getElementById('actionSelection').style.display = 'none';
+            document.getElementById('changePinForm').style.display = 'block';
+            document.getElementById('removePinForm').style.display = 'none';
+            document.getElementById('oldPinContainer').style.display = 'none';
+            document.getElementById('pinManagementTitle').textContent = 'Set Access PIN';
+            document.getElementById('newPin').placeholder = 'Enter your PIN';
+            document.getElementById('savePinBtn').textContent = 'Set PIN';
+        }
+        
+        function showChangePinForm() {
+            document.getElementById('actionSelection').style.display = 'none';
+            document.getElementById('changePinForm').style.display = 'block';
+            document.getElementById('removePinForm').style.display = 'none';
+            document.getElementById('oldPinContainer').style.display = 'block';
+            document.getElementById('pinManagementTitle').textContent = 'Change Access PIN';
+            document.getElementById('newPin').placeholder = 'Enter new PIN';
+            document.getElementById('savePinBtn').textContent = 'Save Changes';
+        }
+        
+        function showRemovePinForm() {
+            document.getElementById('actionSelection').style.display = 'none';
+            document.getElementById('changePinForm').style.display = 'none';
+            document.getElementById('removePinForm').style.display = 'block';
+            document.getElementById('pinManagementTitle').textContent = 'Remove Access PIN';
+        }
+        
+        function showActionSelection() {
+            document.getElementById('actionSelection').style.display = 'block';
+            document.getElementById('changePinForm').style.display = 'none';
+            document.getElementById('removePinForm').style.display = 'none';
+            document.getElementById('pinManagementTitle').textContent = 'Manage Access PIN';
+        }
+        
+        window.addEventListener('load', () => {
+            // Action selection buttons
+            document.getElementById('changePinBtn').addEventListener('click', showChangePinForm);
+            document.getElementById('removePinBtn').addEventListener('click', showRemovePinForm);
+            
+            // Cancel buttons
+            document.getElementById('cancelChangeBtn').addEventListener('click', showActionSelection);
+            document.getElementById('cancelRemoveBtn').addEventListener('click', showActionSelection);
+            
+            // Verification method radio buttons
+            document.querySelectorAll('input[name="verificationMethod"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const pinVerification = document.getElementById('pinVerification');
+                    const emailVerification = document.getElementById('emailVerification');
+                    
+                    if (e.target.value === 'pin') {
+                        pinVerification.style.display = 'block';
+                        emailVerification.style.display = 'none';
+                    } else {
+                        pinVerification.style.display = 'none';
+                        emailVerification.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Save PIN button (for both set and change)
+            document.getElementById('savePinBtn').addEventListener('click', async () => {
+                const oldPin = document.getElementById('oldPin').value;
+                const newPin = document.getElementById('newPin').value;
+                const errorEl = document.getElementById('pinError');
+                const user = auth.currentUser;
+                const userDocRef = doc(db, "userPins", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                const userPinHash = userDocSnap.exists() ? userDocSnap.data().pinHash : null;
+                
+                // Check if this is "Set PIN" mode (no existing PIN)
+                if (!userPinHash) {
+                    // Set PIN mode - no old PIN required
+                    if (!newPin || newPin.length < 4 || newPin.length > 6) {
+                        errorEl.textContent = 'PIN must be between 4 and 6 digits.';
+                        errorEl.style.display = 'block';
+                        return;
+                    }
+                    
+                    const newHash = await sha256(newPin);
+                    await setDoc(userDocRef, { pinHash: newHash });
+                    
+                    document.getElementById('pinManagementModal').classList.add('hidden');
+                    document.getElementById('oldPin').value = '';
+                    document.getElementById('newPin').value = '';
+                    errorEl.style.display = 'none';
+                    alert('PIN set successfully');
+                    
+                    // Update button text
+                    document.getElementById('pin-btn-text').textContent = 'Manage PIN';
+                    return;
+                }
+                
+                // Change PIN mode - old PIN required
+                if (!oldPin) {
+                    errorEl.textContent = 'Please enter current PIN';
+                    errorEl.style.display = 'block';
+                    return;
+                }
+                
+                const oldHash = await sha256(oldPin);
+                let isValidOldPin = false;
+                
+                if (userPinHash && oldHash === userPinHash) isValidOldPin = true;
+
+                // Fallback to default PIN for backward compatibility
+                if (!isValidOldPin && oldHash === REQUIRED_HASH) {
+                    isValidOldPin = true;
+                }
+                
+                if (!isValidOldPin) {
+                    errorEl.textContent = 'Current PIN is incorrect';
+                    errorEl.style.display = 'block';
+                    return;
+                }
+                
+                if (!newPin || newPin.length < 4 || newPin.length > 6) {
+                    errorEl.textContent = 'New PIN must be between 4 and 6 digits.';
+                    errorEl.style.display = 'block';
+                    return;
+                }
+                
+                const newHash = await sha256(newPin);
+                
+                // Store the new PIN for the current user
+                if (user) {
+                    await setDoc(userDocRef, { pinHash: newHash });
+                }
+                
+                document.getElementById('pinManagementModal').classList.add('hidden');
+                document.getElementById('oldPin').value = '';
+                document.getElementById('newPin').value = '';
+                errorEl.style.display = 'none';
+                alert('PIN changed successfully');
+            });
+            
+            // Remove PIN button
+            document.getElementById('confirmRemoveBtn').addEventListener('click', async () => {
+                const user = auth.currentUser;
+                const errorEl = document.getElementById('pinError');
+                const verificationMethod = document.querySelector('input[name="verificationMethod"]:checked').value;
+                
+                if (verificationMethod === 'pin') {
+                    // PIN verification
+                    const removePin = document.getElementById('removePinInput').value;
+                    const userDocRef = doc(db, "userPins", user.uid);
+                    const userDocSnap = await getDoc(userDocRef);
+                    const userPinHash = userDocSnap.exists() ? userDocSnap.data().pinHash : null;
+                    
+                    if (!removePin) {
+                        errorEl.textContent = 'Please enter current PIN';
+                        errorEl.style.display = 'block';
+                        return;
+                    }
+                    
+                    const pinHash = await sha256(removePin);
+                    let isValidPin = false;
+                    
+                    if (userPinHash && pinHash === userPinHash) {
+                        isValidPin = true;
+                    }
+                    
+                    // Fallback to default PIN for backward compatibility
+                    if (!isValidPin && pinHash === REQUIRED_HASH) {
+                        isValidPin = true;
+                    }
+                    
+                    if (!isValidPin) {
+                        errorEl.textContent = 'PIN is incorrect';
+                        errorEl.style.display = 'block';
+                        return;
+                    }
+                } else {
+                    // Email and password verification
+                    const email = document.getElementById('removeEmailInput').value;
+                    const password = document.getElementById('removePasswordInput').value;
+                    
+                    if (!email || !password) {
+                        errorEl.textContent = 'Please enter both email and password';
+                        errorEl.style.display = 'block';
+                        return;
+                    }
+                    
+                    if (email !== user.email) {
+                        errorEl.textContent = 'Email does not match your account';
+                        errorEl.style.display = 'block';
+                        return;
+                    }
+                    
+                    try {
+                        // Check if user has email/password provider linked
+                        const providers = user.providerData;
+                        const hasEmailProvider = providers.some(provider => provider.providerId === 'password');
+                        
+                        if (!hasEmailProvider) {
+                            errorEl.textContent = 'Your account is not linked to email/password. Please use PIN verification instead.';
+                            errorEl.style.display = 'block';
+                            return;
+                        }
+                        
+                        // Re-authenticate user with email and password
+                        const credential = EmailAuthProvider.credential(email, password);
+                        await reauthenticateWithCredential(user, credential);
+                    } catch (error) {
+                        console.error('Re-authentication error:', error);
+                        if (error.code === 'auth/wrong-password') {
+                            errorEl.textContent = 'Incorrect password';
+                        } else if (error.code === 'auth/user-not-found') {
+                            errorEl.textContent = 'Email not found';
+                        } else if (error.code === 'auth/invalid-email') {
+                            errorEl.textContent = 'Invalid email format';
+                        } else if (error.code === 'auth/too-many-requests') {
+                            errorEl.textContent = 'Too many failed attempts. Please try again later.';
+                        } else {
+                            errorEl.textContent = 'Authentication failed. Please check your credentials.';
+                        }
+                        errorEl.style.display = 'block';
+                        return;
+                    }
+                }
+                
+                // Remove PIN
+                const userDocRef = doc(db, "userPins", user.uid);
+                await updateDoc(userDocRef, { pinHash: null });
+                
+                document.getElementById('pinManagementModal').classList.add('hidden');
+                document.getElementById('removePinInput').value = '';
+                document.getElementById('removeEmailInput').value = '';
+                document.getElementById('removePasswordInput').value = '';
+                errorEl.style.display = 'none';
+                alert('PIN removed successfully');
+                
+                // Update button text
+                document.getElementById('pin-btn-text').textContent = 'Set PIN';
+            });
+        });
 
         let isSelectModeActive = false;
         let showPreviews = localStorage.getItem('showPreviews') === 'true';
@@ -1216,23 +2814,106 @@
         let currentFolder = localStorage.getItem('lastOpenedFolder') || "home";
         let filesMeta = [], folders = [];
         const DEFAULT_FOLDER = "home";
-        let authListenerUnsubscribe = null;
         let currentSort = { by: 'name', dir: 'asc' };
 
 
-        // Theme persistence already stored on body.dataset.theme — also echo to <html> so other pages (about.html) that use html.dark/light will match
+        // Theme system
         const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedPalette = localStorage.getItem('colorPalette') || '1';
+        
         document.body.dataset.theme = savedTheme;
+        document.body.dataset.palette = savedPalette;
+        
         if (savedTheme === 'dark') document.documentElement.classList.add('dark');
         else document.documentElement.classList.add('light');
 
+        // Color palettes data
+        const colorPalettes = [
+            { id: '1', name: 'Purple', primary: '#6200EE', accent: '#03DAC6', background: '#FFFFFF' },
+            { id: '2', name: 'Deep Purple', primary: '#3700B3', accent: '#018786', background: '#FFFFFF' },
+            { id: '3', name: 'Teal', primary: '#006064', accent: '#FFAB00', background: '#F2F2F2' },
+            { id: '4', name: 'Pink', primary: '#880E4F', accent: '#FFC107', background: '#FAFAFA' },
+            { id: '5', name: 'Indigo', primary: '#4A148C', accent: '#FF6D00', background: '#FFFFFF' },
+            { id: '6', name: 'Red', primary: '#B71C1C', accent: '#2962FF', background: '#F5F5F5' },
+            { id: '7', name: 'Navy', primary: '#1A237E', accent: '#00BFA5', background: '#FFFFFF' },
+            { id: '8', name: 'Blue', primary: '#0D47A1', accent: '#FFD600', background: '#EFEFEF' },
+            { id: '9', name: 'Green', primary: '#004D40', accent: '#FFAB40', background: '#FFFFFF' },
+            { id: '10', name: 'Orange', primary: '#E65100', accent: '#42A5F5', background: '#FAFAFA' },
+            { id: '11', name: 'Brown', primary: '#BF360C', accent: '#00ACC1', background: '#FFFFFF' },
+            { id: '12', name: 'Coffee', primary: '#3E2723', accent: '#FF6F00', background: '#F5F5F5' },
+            { id: '13', name: 'Slate', primary: '#263238', accent: '#FFC400', background: '#FFFFFF' },
+            { id: '14', name: 'Violet', primary: '#311B92', accent: '#00E676', background: '#EFEFEF' },
+            { id: '15', name: 'Magenta', primary: '#AD1457', accent: '#FFAB00', background: '#FFFFFF' },
+            { id: '16', name: 'Rose', primary: '#D81B60', accent: '#00B8D4', background: '#FAFAFA' },
+            { id: '17', name: 'Amethyst', primary: '#5E35B1', accent: '#FFEA00', background: '#FFFFFF' },
+            { id: '18', name: 'Sky', primary: '#0277BD', accent: '#FF9100', background: '#F5F5F5' },
+            { id: '19', name: 'Forest', primary: '#00695C', accent: '#FFC107', background: '#FFFFFF' },
+            { id: '20', name: 'Crimson', primary: '#C62828', accent: '#2979FF', background: '#EFEFEF' }
+        ];
+
+        window.showThemeModal = () => {
+            closeMobileSidebar();
+            const modal = document.getElementById('themeModal');
+            const themeSwitch = document.getElementById('themeSwitch');
+            const palettesContainer = document.getElementById('colorPalettes');
+            
+            // Update theme switch
+            themeSwitch.classList.toggle('active', savedTheme === 'dark');
+            
+            // Generate color palettes
+            palettesContainer.innerHTML = '';
+            colorPalettes.forEach(palette => {
+                const paletteEl = document.createElement('div');
+                paletteEl.className = 'color-palette';
+                paletteEl.dataset.palette = palette.id;
+                if (palette.id === savedPalette) {
+                    paletteEl.classList.add('active');
+                }
+                
+                paletteEl.innerHTML = `
+                    <div class="palette-preview">
+                        <div class="palette-color" style="background-color: ${palette.primary}"></div>
+                        <div class="palette-color" style="background-color: ${palette.accent}"></div>
+                        <div class="palette-color" style="background-color: ${palette.background}"></div>
+                    </div>
+                    <div class="palette-name">${palette.name}</div>
+                `;
+                
+                paletteEl.addEventListener('click', () => {
+                    document.querySelectorAll('.color-palette').forEach(p => p.classList.remove('active'));
+                    paletteEl.classList.add('active');
+                    applyColorPalette(palette.id);
+                });
+                
+                palettesContainer.appendChild(paletteEl);
+            });
+            
+            modal.classList.remove('hidden');
+        };
+
+        window.closeThemeModal = () => {
+            document.getElementById('themeModal').classList.add('hidden');
+        };
+
+        window.toggleThemeMode = () => {
+            const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            document.body.dataset.theme = next;
+            document.documentElement.classList.toggle('dark', next === 'dark');
+            document.documentElement.classList.toggle('light', next === 'light');
+            localStorage.setItem('theme', next);
+            
+            const themeSwitch = document.getElementById('themeSwitch');
+            themeSwitch.classList.toggle('active', next === 'dark');
+        };
+
+        function applyColorPalette(paletteId) {
+            document.body.dataset.palette = paletteId;
+            localStorage.setItem('colorPalette', paletteId);
+        }
+
+        // Legacy theme toggle for header button
         window.toggleTheme = () => {
-          const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
-          document.body.dataset.theme = next;
-          // mirror on html element for pages that rely on html.dark / html.light
-          document.documentElement.classList.toggle('dark', next === 'dark');
-          document.documentElement.classList.toggle('light', next === 'light');
-          localStorage.setItem('theme', next);
+            toggleThemeMode();
         };
 
         window.setDisplayMode = (mode) => {
@@ -1282,33 +2963,164 @@
             }
         }
 
-        function setupAuthListener() {
-            if (authListenerUnsubscribe) authListenerUnsubscribe();
-            authListenerUnsubscribe = onAuthStateChanged(auth, async user => {
-                if (!user) {
-                    if (!sessionStorage.getItem('logoutInProgress')) {
-                        window.location.href = "index.html";
+        function initializeDashboard() {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            let accounts = JSON.parse(localStorage.getItem('driveAccounts')) || [];
+            let activeAccount = accounts.find(acc => acc.uid === user.uid);
+            if (!activeAccount) {
+                activeAccount = { uid: user.uid, email: user.email, photoURL: null };
+                accounts.push(activeAccount);
+            }
+            localStorage.setItem('driveAccounts', JSON.stringify(accounts));
+            localStorage.setItem('activeDriveAccountUID', user.uid);
+
+            uploadBytes(ref(storage, `users/${user.uid}/${DEFAULT_FOLDER}/.placeholder`), new Blob([])).catch(() => { });
+
+            initDashboard(user);
+        }
+
+        // First-time setup functions
+        function showFirstTimeSetup(user) {
+            const setupModal = document.getElementById('setupModal');
+            setupModal.classList.remove('hidden');
+            
+            // Set up event listeners for the setup modal
+            setupFirstTimeSetupListeners(user);
+        }
+
+        function setupFirstTimeSetupListeners(user) {
+            const setupModal = document.getElementById('setupModal');
+            const passwordSetup = document.getElementById('passwordSetup');
+            const setupError = document.getElementById('setupError');
+            
+            // Handle radio button changes
+            const radioButtons = document.querySelectorAll('input[name="securityOption"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if (e.target.value === 'password') {
+                        passwordSetup.style.display = 'block';
+                    } else {
+                        passwordSetup.style.display = 'none';
                     }
-                    sessionStorage.removeItem('logoutInProgress');
+                });
+            });
+            
+            // Use onclick attribute for the button to ensure it works
+            const completeSetupBtn = document.getElementById('completeSetupBtn');
+            completeSetupBtn.onclick = async () => {
+                const selectedOption = document.querySelector('input[name="securityOption"]:checked').value;
+                
+                if (selectedOption === 'password') {
+                    const pin = document.getElementById('setupPin').value.trim();
+                    const confirmPin = document.getElementById('confirmSetupPin').value.trim();
+                    
+                    if (!pin || !confirmPin) {
+                        showSetupError('Please enter and confirm your PIN');
+                        return;
+                    }
+                    
+                    if (pin.length < 4 || pin.length > 6) {
+                        showSetupError('PIN must be between 4 and 6 characters long');
+                        return;
+                    }
+                    
+                    if (pin !== confirmPin) {
+                        showSetupError('PINs do not match');
+                        return;
+                    }
+                    
+                    // Hash and store the PIN
+                    const pinHash = await sha256(pin);
+                    await setDoc(doc(db, "userPins", user.uid), { pinHash: pinHash });
+                    document.getElementById('pin-btn-text').textContent = 'Manage PIN';
+                } else {
+                    // User skipped PIN setup
+                    document.getElementById('pin-btn-text').textContent = 'Set PIN';
+                }
+                
+                // Mark setup as completed
+                const userSetupKey = `userSetup_${user.uid}`;
+                localStorage.setItem(userSetupKey, 'completed');
+                
+                // Hide modal and initialize dashboard
+                setupModal.classList.add('hidden');
+                initDashboard(user);
+            };
+        }
+
+        function showSetupError(message) {
+            const setupError = document.getElementById('setupError');
+            setupError.textContent = message;
+            setupError.style.display = 'block';
+        }
+
+        // Global function for the setup button (backup method)
+        window.completeSetup = async () => {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            const selectedOption = document.querySelector('input[name="securityOption"]:checked');
+            if (!selectedOption) return;
+            
+            const setupModal = document.getElementById('setupModal');
+            
+            if (selectedOption.value === 'password') {
+                const pin = document.getElementById('setupPin').value.trim();
+                const confirmPin = document.getElementById('confirmSetupPin').value.trim();
+                
+                if (!pin || !confirmPin) {
+                    showSetupError('Please enter and confirm your PIN');
                     return;
                 }
-
-                let accounts = JSON.parse(localStorage.getItem('driveAccounts')) || [];
-                let activeAccount = accounts.find(acc => acc.uid === user.uid);
-                if (!activeAccount) {
-                    activeAccount = { uid: user.uid, email: user.email, photoURL: null };
-                    accounts.push(activeAccount);
+                
+                if (pin.length < 4) {
+                    showSetupError('PIN must be at least 4 characters long');
+                    return;
                 }
-                localStorage.setItem('driveAccounts', JSON.stringify(accounts));
-                localStorage.setItem('activeDriveAccountUID', user.uid);
+                
+                if (pin !== confirmPin) {
+                    showSetupError('PINs do not match');
+                    return;
+                }
+                
+                // Hash and store the PIN
+                const pinHash = await sha256(pin);
+                await setDoc(doc(db, "userPins", user.uid), { pinHash: pinHash });
+                document.getElementById('pin-btn-text').textContent = 'Manage PIN';
+            } else if (selectedOption.value === 'skip-permanent') {
+                // Mark that user permanently skipped PIN setup
+                localStorage.setItem(`userPinSkipped_${user.uid}`, 'permanent');
+                document.getElementById('pin-btn-text').textContent = 'Set PIN';
+            } else {
+                document.getElementById('pin-btn-text').textContent = 'Set PIN';
+            }
+            
+            // Mark setup as completed
+            const userSetupKey = `userSetup_${user.uid}`;
+            localStorage.setItem(userSetupKey, 'completed');
+            
+            // Hide modal and initialize dashboard
+            setupModal.classList.add('hidden');
+            initializeDashboard();
+        };
 
-                await uploadBytes(ref(storage, `users/${user.uid}/${DEFAULT_FOLDER}/.placeholder`), new Blob([])).catch(() => { });
-
-                initDashboard(user);
+        // Splash screen logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.classList.add('fade-out');
+                setTimeout(() => splash.style.display = 'none', 500);
+            }, 1000);
+            
+            // Close theme modal when clicking outside
+            document.getElementById('themeModal').addEventListener('click', (e) => {
+                if (e.target.id === 'themeModal') {
+                    closeThemeModal();
+                }
             });
-        }
-        setupAuthListener();
-
+        });
 
         function initDashboard(user) {
             loadFolders();
@@ -1482,7 +3294,9 @@
 
             getDownloadURL(profilePicRef).then(url => {
                 document.getElementById("profilePic").src = url;
-            }).catch(() => { });
+            }).catch(() => {
+                document.getElementById("profilePic").src = 'https://placehold.co/40x40/EFEFEF/AAAAAA&text=側';
+            });
 
             document.getElementById("accountSection").onclick = () => {
                 renderAccountList(user);
@@ -1651,9 +3465,14 @@
 
 
         function getFileTypeIcon(type, name) {
-            if (type && type.startsWith('image/')) return `<svg viewBox="0 0 24 24" style="color: #ea4335"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>`;
-            if (type && type.startsWith('video/')) return `<svg viewBox="0 0 24 24" style="color: #4285f4"><path d="M15 8v8H5V8h10m1-2H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-1l11v-11l-4 4V7c0-.55-.45-1-1-1z"/></svg>`;
-            return `<svg viewBox="0 0 24 24" style="color: #5f6368"><path d="M6 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6H6z"/></svg>`;
+            if (type && type.startsWith('image/')) return `<svg viewBox="0 0 24 24" style="color: #ea4335"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>`;
+            if (type && type.startsWith('video/')) return `<svg viewBox="0 0 24 24" style="color: #1a73e8"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>`;
+            if (type && type.startsWith('audio/')) return `<svg viewBox="0 0 24 24" style="color: #34a853"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>`;
+            if (type && type.includes('pdf')) return `<svg viewBox="0 0 24 24" style="color: #ea4335"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>`;
+            if (type && (type.includes('word') || type.includes('document'))) return `<svg viewBox="0 0 24 24" style="color: #1a73e8"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>`;
+            if (type && (type.includes('excel') || type.includes('spreadsheet'))) return `<svg viewBox="0 0 24 24" style="color: #34a853"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>`;
+            if (type && (type.includes('powerpoint') || type.includes('presentation'))) return `<svg viewBox="0 0 24 24" style="color: #fbbc04"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>`;
+            return `<svg viewBox="0 0 24 24" style="color: var(--google-text-secondary)"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/></svg>`;
         }
 
         function createFileItem({ name, size, type, updated, ref: fileRef }) {
@@ -1699,17 +3518,46 @@
 
             const checkbox = el.querySelector(".checkbox");
             checkbox.addEventListener('change', updateDeleteButtonVisibility);
-
-            el.addEventListener('click', e => {
-                if (!isSelectModeActive) return;
+            
+            let pressTimer;
+            
+            el.addEventListener('mousedown', (e) => {
                 if (e.target.type === 'checkbox') return;
-                checkbox.checked = !checkbox.checked;
-                el.classList.toggle("selected", checkbox.checked);
-                updateDeleteButtonVisibility();
+                pressTimer = setTimeout(() => {
+                    if (!isSelectModeActive) {
+                        toggleSelectMode();
+                    }
+                    checkbox.checked = !checkbox.checked;
+                    el.classList.toggle("selected", checkbox.checked);
+                    updateDeleteButtonVisibility();
+                }, 500);
+            });
+            
+            el.addEventListener('mouseup', () => {
+                clearTimeout(pressTimer);
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                clearTimeout(pressTimer);
             });
 
-            el.addEventListener('dblclick', () => {
-                getDownloadURL(fileRef).then(url => window.open(url, '_blank'));
+            el.addEventListener('click', e => {
+                if (e.target.type === 'checkbox') return;
+                
+                if (isSelectModeActive) {
+                    checkbox.checked = !checkbox.checked;
+                    el.classList.toggle("selected", checkbox.checked);
+                    updateDeleteButtonVisibility();
+                } else {
+                    getDownloadURL(fileRef).then(url => {
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = name;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    });
+                }
             });
 
             const thumbDiv = el.querySelector('.thumbnail');
@@ -1826,6 +3674,49 @@
             uploadBytes(folderRef, new Blob([])).then(loadFolders);
         };
 
+        window.deleteFolder = async () => {
+            if (currentFolder === 'home') {
+                alert('Cannot delete the home folder');
+                return;
+            }
+            
+            const pin = prompt('Enter your PIN to delete this folder:');
+            if (!pin) return;
+            
+            const hash = await sha256(pin);
+            if (hash !== REQUIRED_HASH) {
+                alert('Invalid PIN');
+                return;
+            }
+            
+            const confirmModal = document.getElementById('confirmModal');
+            const confirmMessage = document.getElementById('confirmMessage');
+            const confirmBtn = document.getElementById('confirmBtn');
+            
+            confirmMessage.textContent = `Permanently delete folder "${currentFolder}" and all its contents? This action cannot be undone.`;
+            confirmModal.classList.remove('hidden');
+            
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+            
+            newConfirmBtn.onclick = async () => {
+                confirmModal.classList.add('hidden');
+                const user = auth.currentUser;
+                const folderRef = ref(storage, `users/${user.uid}/${currentFolder}/`);
+                const list = await listAll(folderRef);
+                
+                const deletePromises = [];
+                list.items.forEach(item => deletePromises.push(deleteObject(item)));
+                list.prefixes.forEach(prefix => deletePromises.push(listAll(prefix).then(subList => 
+                    Promise.all(subList.items.map(item => deleteObject(item)))
+                )));
+                
+                await Promise.all(deletePromises);
+                renderForFolder('home');
+                loadFolders();
+            };
+        };
+
         function deselectAllFiles() {
             document.querySelectorAll('.file-item.selected').forEach(item => {
                 item.classList.remove('selected');
@@ -1833,6 +3724,13 @@
             });
             updateDeleteButtonVisibility();
         }
+
+        window.closeMobileSidebar = () => {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('visible');
+        };
 
         function initMobileSidebar() {
             const toggleBtn = document.querySelector('.sidebar-toggle-btn');
@@ -1846,8 +3744,7 @@
             });
 
             overlay.addEventListener('click', () => {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('visible');
+                closeMobileSidebar();
             });
         }
 
